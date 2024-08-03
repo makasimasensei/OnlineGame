@@ -1,0 +1,14 @@
+E:\C#Project\网络游戏\服务器端\obj\Debug\net8.0\服务器端.GeneratedMSBuildEditorConfig.editorconfig
+E:\C#Project\网络游戏\服务器端\obj\Debug\net8.0\服务器端.AssemblyInfoInputs.cache
+E:\C#Project\网络游戏\服务器端\obj\Debug\net8.0\服务器端.AssemblyInfo.cs
+E:\C#Project\网络游戏\服务器端\obj\Debug\net8.0\服务器端.csproj.CoreCompileInputs.cache
+E:\C#Project\网络游戏\服务器端\bin\Debug\net8.0\服务器端.exe
+E:\C#Project\网络游戏\服务器端\bin\Debug\net8.0\服务器端.deps.json
+E:\C#Project\网络游戏\服务器端\bin\Debug\net8.0\服务器端.runtimeconfig.json
+E:\C#Project\网络游戏\服务器端\bin\Debug\net8.0\服务器端.dll
+E:\C#Project\网络游戏\服务器端\bin\Debug\net8.0\服务器端.pdb
+E:\C#Project\网络游戏\服务器端\obj\Debug\net8.0\服务器端.dll
+E:\C#Project\网络游戏\服务器端\obj\Debug\net8.0\refint\服务器端.dll
+E:\C#Project\网络游戏\服务器端\obj\Debug\net8.0\服务器端.pdb
+E:\C#Project\网络游戏\服务器端\obj\Debug\net8.0\服务器端.genruntimeconfig.cache
+E:\C#Project\网络游戏\服务器端\obj\Debug\net8.0\ref\服务器端.dll

@@ -1,0 +1,14 @@
+E:\C#Project\网络游戏\客户端\bin\Debug\net8.0\客户端.exe
+E:\C#Project\网络游戏\客户端\bin\Debug\net8.0\客户端.deps.json
+E:\C#Project\网络游戏\客户端\bin\Debug\net8.0\客户端.runtimeconfig.json
+E:\C#Project\网络游戏\客户端\bin\Debug\net8.0\客户端.dll
+E:\C#Project\网络游戏\客户端\bin\Debug\net8.0\客户端.pdb
+E:\C#Project\网络游戏\客户端\obj\Debug\net8.0\客户端.GeneratedMSBuildEditorConfig.editorconfig
+E:\C#Project\网络游戏\客户端\obj\Debug\net8.0\客户端.AssemblyInfoInputs.cache
+E:\C#Project\网络游戏\客户端\obj\Debug\net8.0\客户端.AssemblyInfo.cs
+E:\C#Project\网络游戏\客户端\obj\Debug\net8.0\客户端.csproj.CoreCompileInputs.cache
+E:\C#Project\网络游戏\客户端\obj\Debug\net8.0\客户端.dll
+E:\C#Project\网络游戏\客户端\obj\Debug\net8.0\refint\客户端.dll
+E:\C#Project\网络游戏\客户端\obj\Debug\net8.0\客户端.pdb
+E:\C#Project\网络游戏\客户端\obj\Debug\net8.0\客户端.genruntimeconfig.cache
+E:\C#Project\网络游戏\客户端\obj\Debug\net8.0\ref\客户端.dll
