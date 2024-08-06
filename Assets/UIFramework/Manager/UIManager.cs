@@ -9,27 +9,16 @@ public class UIManager : BaseManager
     {
         ParseUIPanelTypeJson();
     }
-    /// 
-    /// 单例模式的核心
-    /// 1，定义一个静态的对象 在外界访问 在内部构造
-    /// 2，构造方法私有化
 
-    //private static UIManager _instance;
+    public override void OnInit()
+    {
+        base.OnInit();
+        PushPanel(UIPanelType.Message);
+        PushPanel(UIPanelType.StartButton);
+    }
 
-    //public static UIManager Instance
-    //{
-    //    get
-    //    {
-    //        if (_instance == null)
-    //        {
-    //            _instance = new UIManager();
-    //        }
-    //        return _instance;
-    //    }
-    //}
-
-    private Transform canvasTransform;
-    private Transform CanvasTransform
+    Transform canvasTransform;
+    Transform CanvasTransform
     {
         get
         {
@@ -40,17 +29,17 @@ public class UIManager : BaseManager
             return canvasTransform;
         }
     }
-    private Dictionary<UIPanelType, string> panelPathDict;//存储所有面板Prefab的路径
-    private Dictionary<UIPanelType, BasePanel> panelDict;//保存所有实例化面板的游戏物体身上的BasePanel组件
-    private Stack<BasePanel> panelStack;
+    Dictionary<UIPanelType, string> panelPathDict;//存储所有面板Prefab的路径
+    Dictionary<UIPanelType, BasePanel> panelDict;//保存所有实例化面板的游戏物体身上的BasePanel组件
+    Stack<BasePanel> panelStack;
+    MessagePanel messagePanel;
 
     /// <summary>
     /// 把某个页面入栈，  把某个页面显示在界面上
     /// </summary>
     public void PushPanel(UIPanelType panelType)
     {
-        if (panelStack == null)
-            panelStack = new Stack<BasePanel>();
+        panelStack ??= new Stack<BasePanel>();
 
         //判断一下栈里面是否有页面
         if (panelStack.Count > 0)
@@ -63,6 +52,7 @@ public class UIManager : BaseManager
         panel.OnEnter();
         panelStack.Push(panel);
     }
+
     /// <summary>
     /// 出栈 ，把页面从界面上移除
     /// </summary>
@@ -94,9 +84,6 @@ public class UIManager : BaseManager
             panelDict = new Dictionary<UIPanelType, BasePanel>();
         }
 
-        //BasePanel panel;
-        //panelDict.TryGetValue(panelType, out panel);//TODO
-
         BasePanel panel = panelDict.TryGet(panelType);
 
         if (panel == null)
@@ -107,6 +94,7 @@ public class UIManager : BaseManager
             string path = panelPathDict.TryGet(panelType);
             GameObject instPanel = GameObject.Instantiate(Resources.Load(path)) as GameObject;
             instPanel.transform.SetParent(CanvasTransform, false);
+            instPanel.GetComponent<BasePanel>().Manager = this;
             panelDict.Add(panelType, instPanel.GetComponent<BasePanel>());
             return instPanel.GetComponent<BasePanel>();
         }
@@ -137,13 +125,18 @@ public class UIManager : BaseManager
         }
     }
 
-    /// <summary>
-    /// just for test
-    /// </summary>
-    public void Test()
+    public void InjectMessagePanel(MessagePanel messagePanel)
     {
-        string path;
-        panelPathDict.TryGetValue(UIPanelType.Knapsack, out path);
-        Debug.Log(path);
+        this.messagePanel = messagePanel;
     }
+
+    public void UIManagerCallShowMessage(string message)
+    {
+        if (messagePanel == null)
+        {
+            Debug.Log("Can't show messages, messagePanel is null."); return;
+        }
+        messagePanel.ShowMessage(message);
+    }
+
 }

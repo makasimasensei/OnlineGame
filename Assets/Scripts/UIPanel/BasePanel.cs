@@ -1,7 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class BasePanel : MonoBehaviour {
+public class BasePanel : MonoBehaviour 
+{
+    protected UIManager manager;
+
+    public UIManager Manager {set => manager = value; }
+
     /// <summary>
     /// 界面被显示出来
     /// </summary>

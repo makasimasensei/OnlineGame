@@ -72,4 +72,9 @@ public class GameFacade : MonoBehaviour
     {
         requestManager.HandleResponse(requestCode, data);
     }
+
+    public void GameFacadeCallShowMessage(string msg)
+    {
+        uiManager.UIManagerCallShowMessage(msg);
+    }
 }
