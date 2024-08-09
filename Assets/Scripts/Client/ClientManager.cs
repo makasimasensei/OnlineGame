@@ -56,9 +56,9 @@ public class ClientManager : BaseManager
         clientSocket.Send(bytes);
     }
 
-    void OnProcessDataCallback(RequestCode requestCode, string data)
+    void OnProcessDataCallback(ActionCode actionCode, string data)
     {
-        facade.HandleResponse(requestCode, data);
+        facade.HandleResponse(actionCode, data);
     }
 
     public override void OnDestroy()

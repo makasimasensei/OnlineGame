@@ -3,16 +3,16 @@ using UnityEngine;
 
 public class GameFacade : MonoBehaviour
 {
-    static GameFacade _instance;
+    static GameFacade instance;
 
     UIManager uiManager;
     AudioManager audioManager;
     PlayerManager playerManager;
     CameraManager cameraManager;
     RequestManager requestManager;
-    ClientManager client;
+    ClientManager clientManager;
 
-    public static GameFacade Instance { get => _instance; }
+    public static GameFacade Instance { get => instance; }
 
     void Start()
     {
@@ -21,11 +21,11 @@ public class GameFacade : MonoBehaviour
 
     void Awake()
     {
-        if (_instance != null)
+        if (instance != null)
         {
             Destroy(gameObject); return;
         }
-        _instance = this;
+        instance = this;
     }
 
     void InitManager()
@@ -35,7 +35,7 @@ public class GameFacade : MonoBehaviour
         playerManager = new PlayerManager(this);
         cameraManager = new CameraManager(this);
         requestManager = new RequestManager(this);
-        client = new ClientManager(this);
+        clientManager = new ClientManager(this);
 
         uiManager.OnInit();
         audioManager.OnInit();
@@ -58,23 +58,29 @@ public class GameFacade : MonoBehaviour
         DestroyManager();
     }
 
-    public void AddRequest(RequestCode requestCode, BaseRequest baseRequest)
+    public void AddRequest(ActionCode actionCode, BaseRequest baseRequest)
     {
-        requestManager.AddRequest(requestCode, baseRequest);
+        requestManager.AddRequest(actionCode, baseRequest);
     }
 
-    public void RemoveRequest(RequestCode requestCode)
+    public void RemoveRequest(ActionCode actionCode)
     {
-        requestManager.RemoveRequest(requestCode);
+        requestManager.RemoveRequest(actionCode);
     }
 
-    public void HandleResponse(RequestCode requestCode, string data)
+    public void HandleResponse(ActionCode actionCode, string data)
     {
-        requestManager.HandleResponse(requestCode, data);
+        requestManager.HandleResponse(actionCode, data);
     }
 
     public void GameFacadeCallShowMessage(string msg)
     {
         uiManager.UIManagerCallShowMessage(msg);
     }
+
+    public void SendRequest(RequestCode requestCode, ActionCode actionCode, string data)
+    {
+        clientManager.SendRequest(requestCode, actionCode, data);
+    }
+
 }

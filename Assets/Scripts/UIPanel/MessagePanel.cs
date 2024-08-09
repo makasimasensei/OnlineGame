@@ -12,12 +12,14 @@ public class MessagePanel : BasePanel
         base.OnEnter();
         text = GetComponent<Text>();
         text.enabled = false;
-        manager.InjectMessagePanel(this);
+        uiManager.InjectMessagePanel(this);
     }
 
     public void ShowMessage(string msg)
     {
-        text.color = Color.white;
+        Color color = text.color;
+        color.a = 1;
+        text.color = color;
         text.text = msg;
         text.enabled = true;
         Invoke(nameof(Hide), 1);

@@ -22,7 +22,7 @@ public class Message
     /// <summary>
     /// 解析信息
     /// </summary>
-    public void ReadMessage(Action<RequestCode, string> processDataCallback)
+    public void ReadMessage(Action<ActionCode, string> processDataCallback)
     {
         while (BitConverter.ToInt32(bytes, 0) > 0)
         {
@@ -31,9 +31,9 @@ public class Message
             //解码的长度和实际长度不相同时，返回
             if (remainSize - 4 < len) return;
 
-            RequestCode requestCode = (RequestCode)BitConverter.ToInt32(bytes, 4);
+            ActionCode actionCode = (ActionCode)BitConverter.ToInt32(bytes, 4);
             string s = Encoding.UTF8.GetString(bytes, 8, len - 4);
-            processDataCallback(requestCode, s);
+            processDataCallback(actionCode, s);
 
             RemainSize(4 + len);
 

@@ -3,9 +3,9 @@ using System.Collections;
 
 public class BasePanel : MonoBehaviour 
 {
-    protected UIManager manager;
+    protected UIManager uiManager;
 
-    public UIManager Manager {set => manager = value; }
+    public UIManager UiManager { set => uiManager = value; }
 
     /// <summary>
     /// 界面被显示出来

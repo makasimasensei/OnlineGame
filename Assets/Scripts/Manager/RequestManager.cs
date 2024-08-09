@@ -10,25 +10,25 @@ public class RequestManager : BaseManager
 
     }
 
-    Dictionary<RequestCode, BaseRequest> requestDict = new Dictionary<RequestCode, BaseRequest>();
+    Dictionary<ActionCode, BaseRequest> actionDict = new Dictionary<ActionCode, BaseRequest>();
 
-    public void AddRequest(RequestCode requestCode, BaseRequest baseRequest)
+    public void AddRequest(ActionCode actionCode, BaseRequest baseRequest)
     {
-        requestDict.Add(requestCode, baseRequest);
+        actionDict.Add(actionCode, baseRequest);
     }
 
-    public virtual void RemoveRequest(RequestCode requestCode)
+    public virtual void RemoveRequest(ActionCode actionCode)
     {
-        requestDict.Remove(requestCode);
+        actionDict.Remove(actionCode);
     }
 
-    public void HandleResponse(RequestCode requestCode, string data)
+    public void HandleResponse(ActionCode actionCode, string data)
     {
-        BaseRequest baseRequest = DictionaryExtension.TryGet<RequestCode, BaseRequest>(requestDict, requestCode);
+        BaseRequest baseRequest = DictionaryExtension.TryGet<ActionCode, BaseRequest>(actionDict, actionCode);
         if (baseRequest == null)
         {
-            Debug.LogWarning("无法得到RequestCode" + requestCode);
+            Debug.LogWarning("无法得到ActionCode" + actionCode);
         }
-        baseRequest.OnResponse();
+        baseRequest.OnResponse(data);
     }
 }

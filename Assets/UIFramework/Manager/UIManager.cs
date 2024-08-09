@@ -94,7 +94,7 @@ public class UIManager : BaseManager
             string path = panelPathDict.TryGet(panelType);
             GameObject instPanel = GameObject.Instantiate(Resources.Load(path)) as GameObject;
             instPanel.transform.SetParent(CanvasTransform, false);
-            instPanel.GetComponent<BasePanel>().Manager = this;
+            instPanel.GetComponent<BasePanel>().UiManager = this;
             panelDict.Add(panelType, instPanel.GetComponent<BasePanel>());
             return instPanel.GetComponent<BasePanel>();
         }
