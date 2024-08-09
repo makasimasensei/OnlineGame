@@ -1,7 +1,6 @@
 ﻿namespace GameServer.Controller
 {
-    internal class DefaultController : BaseController
+    class DefaultController : BaseController
     {
-
     }
 }

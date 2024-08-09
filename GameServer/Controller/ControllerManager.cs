@@ -5,10 +5,10 @@ using GameServer.Servers;
 
 namespace GameServer.Controller
 {
-    internal class ControllerManager
+    class ControllerManager
     {
-        Dictionary<RequestCode, BaseController> controllerDict = new Dictionary<RequestCode, BaseController>();
-        Server server;
+        readonly Dictionary<RequestCode, BaseController> controllerDict = new();
+        readonly Server server;
 
         public ControllerManager(Server server)
         {
@@ -16,6 +16,9 @@ namespace GameServer.Controller
             this.server = server;
         }
 
+        /// <summary>
+        /// Initialize controller.
+        /// </summary>
         void InitController()
         {
             DefaultController defaultController = new();
@@ -23,33 +26,50 @@ namespace GameServer.Controller
             controllerDict.Add(RequestCode.User, new UserController());
         }
 
+        /// <summary>
+        /// Handling requests from clients.
+        /// </summary>
+        /// <param name="requestCode">Code of request</param>
+        /// <param name="actionCode">Code of action</param>
+        /// <param name="data">Data from clients</param>
+        /// <param name="client">Client instance</param>
         public void HandleRequest(RequestCode requestCode, ActionCode actionCode, string data, Client client)
         {
+            //Get the corresponding controller from the request code.
             bool isGet = controllerDict.TryGetValue(requestCode, out BaseController? controller);
             if (!isGet || controller == null)
             {
-                Console.WriteLine("Can not get controller where requestcode is " + requestCode);
+                Console.WriteLine("Request code is " + requestCode + ". But controller can't be obtained .");
                 return;
             }
-            string? methodName = Enum.GetName(typeof(ActionCode), actionCode);
-            if (methodName == null)
+
+            //Get the corresponding action code from the ActionCode enum.
+            string? action = Enum.GetName(typeof(ActionCode), actionCode);
+            if (action == null)
             {
-                Console.WriteLine("ActionCode is null.");
+                Console.WriteLine("ActionCode doesn't exist.");
                 return;
             }
-            MethodInfo? mi = controller.GetType().GetMethod(methodName);
-            if (mi == null)
+
+            //Get the corresponding method from the action.
+            MethodInfo? method = controller.GetType().GetMethod(action);
+            if (method == null)
             {
-                Console.WriteLine(methodName + "has no corresponding processing method in" + controller.GetType());
+                Console.WriteLine(action + "has no corresponding processing method in" + controller.GetType());
                 return;
             }
+
+            //Parameters.
             object[] parameters = { data, client, server };
-            object? o = mi.Invoke(controller, parameters);
+            //Method invoking.
+            object? o = method.Invoke(controller, parameters);
+            //Type conversion.
             string? oString = o as string;
             if (o == null || String.IsNullOrEmpty(oString))
             {
                 return;
             }
+            //Send response.
             server.SendResponse(client, actionCode, oString);
         }
     }

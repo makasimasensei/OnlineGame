@@ -3,6 +3,7 @@ using GameServer.Tool;
 using MySql.Data.MySqlClient;
 using System.Net.Sockets;
 
+
 namespace GameServer.Servers
 {
     public class Client
@@ -10,7 +11,7 @@ namespace GameServer.Servers
         public Socket client;
         public Server server;
         Message receiveMsg = new();
-        MySqlConnection conn;
+        readonly MySqlConnection conn;
 
         public Client(Socket c, Server s)
         {

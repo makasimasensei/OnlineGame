@@ -1,7 +1,9 @@
 ﻿using Common;
 using GameServer.Controller;
+using MySqlX.XDevAPI;
 using System.Net;
 using System.Net.Sockets;
+
 
 namespace GameServer.Servers
 {
@@ -11,16 +13,18 @@ namespace GameServer.Servers
         readonly IPEndPoint ipEndPoint;
         List<Client> clientsList = new();
         ControllerManager controllerManager;
+        public Action<RequestCode, ActionCode, string, Client> HandleRequest;
 
         /// <summary>
-        /// 构造函数（配置IP）
+        /// Constructor (configuring IP)
         /// </summary>
-        /// <param name="ip">IPv4地址</param>
-        /// <param name="port">端口号</param>
+        /// <param name="ip">IPv4 address</param>
+        /// <param name="port">port</param>
         public Server(string ip, int port)
         {
             ipEndPoint = new IPEndPoint(IPAddress.Parse(ip), port);
             controllerManager = new(this);
+            HandleRequest = controllerManager.HandleRequest;
         }
 
         /// <summary>
@@ -65,14 +69,15 @@ namespace GameServer.Servers
             }
         }
 
+        /// <summary>
+        /// Server send responses to clients
+        /// </summary>
+        /// <param name="client">Client instance</param>
+        /// <param name="actionCode">Code of action</param>
+        /// <param name="data">Data from clients</param>
         public void SendResponse(Client client, ActionCode actionCode, string data)
         {
             client.Send(actionCode, data);
-        }
-
-        public void HandleRequest(RequestCode requestCode, ActionCode actionCode, string data, Client client)
-        {
-            controllerManager.HandleRequest(requestCode, actionCode, data, client);
         }
     }
 }
