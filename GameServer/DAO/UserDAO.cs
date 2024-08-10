@@ -5,19 +5,26 @@ namespace GameServer.DAO
 {
     class UserDAO
     {
-        public User? VerifyUser(MySqlConnection connection, string username, string password)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="connection"></param>
+        /// <param name="username"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
+        public static User? VerifyUser(MySqlConnection connection, string username, string password)
         {
             MySqlDataReader? mySqlDataReader = null;
             try
             {
-                MySqlCommand command = new MySqlCommand("select * from user where username = @username and password = @password", connection);
+                MySqlCommand command = new("select * from user where username = @username and password = @password", connection);
                 command.Parameters.AddWithValue("username", username);
                 command.Parameters.AddWithValue("password", password);
                 mySqlDataReader = command.ExecuteReader();
                 if (mySqlDataReader.Read())
                 {
                     int id = mySqlDataReader.GetInt32("id");
-                    User user = new User(id, username, password);
+                    User user = new(id, username, password);
                     return user;
                 }
                 else

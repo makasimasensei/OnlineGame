@@ -70,7 +70,7 @@ namespace GameServer.Controller
                 return;
             }
             //Send response.
-            server.SendResponse(client, actionCode, oString);
+            Server.SendResponse(client, actionCode, oString);
         }
     }
 }

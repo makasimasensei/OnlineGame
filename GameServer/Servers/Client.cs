@@ -21,20 +21,20 @@ namespace GameServer.Servers
         }
 
         /// <summary>
-        /// 开始接收消息
+        /// Start receiving messages.
         /// </summary>
-        /// <param name="Bytes">接收到的数据流</param>
-        /// <param name="startIndex">开始位置</param>
-        /// <param name="RemainSize">剩余大小</param>
+        /// <param name="Bytes">Received data stream.</param>
+        /// <param name="startIndex">Start position.</param>
+        /// <param name="RemainSize">Remain size</param>
         public void Start()
         {
             client.BeginReceive(receiveMsg.Bytes, 0, 1024, SocketFlags.None, ReceiveCallback, client);
         }
 
         /// <summary>
-        /// 发送消息
+        /// Send messages.
         /// </summary>
-        /// <param name="bytes">客户端发送消息</param>
+        /// <param name="bytes">Messages the client sends.</param>
         public void Send(ActionCode actionCode, string data)
         {
             byte[] bytes = Message.PackData(actionCode, data);
@@ -42,7 +42,7 @@ namespace GameServer.Servers
         }
 
         /// <summary>
-        /// 关闭客户端
+        /// Close the client.
         /// </summary>
         public void Close()
         {
@@ -55,9 +55,9 @@ namespace GameServer.Servers
         }
 
         /// <summary>
-        /// 
+        /// Callback function that receives messages on the server.
         /// </summary>
-        /// <param name="ar"></param>
+        /// <param name="ar">The asynchronous result returned.</param>
         public void ReceiveCallback(IAsyncResult ar)
         {
             try
@@ -74,6 +74,12 @@ namespace GameServer.Servers
             }
         }
 
+        /// <summary>
+        /// Call the method in ControlManager to process the message.
+        /// </summary>
+        /// <param name="requestCode">Request code.</param>
+        /// <param name="actionCode">Action code.</param>
+        /// <param name="data">Data.</param>
         void OnProcessMessage(RequestCode requestCode, ActionCode actionCode, string data)
         {
             server.HandleRequest(requestCode, actionCode, data, this);

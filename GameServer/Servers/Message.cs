@@ -11,24 +11,22 @@ namespace GameServer.Servers
         public byte[] Bytes { get => bytes; set => bytes = value; }
 
         /// <summary>
-        /// 字节数组剩余大小
+        /// The remaining size of Byte array.
         /// </summary>
-        /// <param name="len">当前字节数组中数据段的长度</param>
+        /// <param name="len">The size of the data segment in the current byte array.</param>
         void RemainSize(int len)
         {
             remainSize -= len;
         }
 
         /// <summary>
-        /// 解析信息
+        /// Parsing information.
         /// </summary>
         public void ReadMessage(Action<RequestCode, ActionCode, string> processDataCallback)
         {
             while (BitConverter.ToInt32(bytes, 0) > 0)
             {
-                //数据长度
                 int len = BitConverter.ToInt32(bytes, 0);
-                //解码的长度和实际长度不相同时，返回
                 if (remainSize - 4 < len) return;
 
                 RequestCode requestCode = (RequestCode)BitConverter.ToInt32(bytes, 4);
@@ -44,6 +42,12 @@ namespace GameServer.Servers
             }
         }
 
+        /// <summary>
+        /// Pack data.
+        /// </summary>
+        /// <param name="actionCode">Action code.</param>
+        /// <param name="data">Data.</param>
+        /// <returns></returns>
         public static byte[] PackData(ActionCode actionCode, string data)
         {
             byte[] requestDataBytes = BitConverter.GetBytes((int)actionCode);
