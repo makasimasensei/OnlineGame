@@ -5,7 +5,8 @@ using UnityEngine.UI;
 public class MessagePanel : BasePanel
 {
     Text text;
-    float remainTime = 1;
+    readonly float remainTime = 1;
+    string message;
 
     public override void OnEnter()
     {
@@ -13,6 +14,20 @@ public class MessagePanel : BasePanel
         text = GetComponent<Text>();
         text.enabled = false;
         uiManager.InjectMessagePanel(this);
+    }
+
+    private void Update()
+    {
+        if (message != null)
+        {
+            ShowMessage(message);
+            message = null;
+        }
+    }
+
+    public void ShowMessageSync(string msg)
+    {
+        message = msg;
     }
 
     public void ShowMessage(string msg)

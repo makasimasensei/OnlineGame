@@ -1,7 +1,9 @@
 using Common;
 using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
+
 
 public class Message
 {
@@ -11,28 +13,27 @@ public class Message
     public byte[] Bytes { get => bytes; set => bytes = value; }
 
     /// <summary>
-    /// 字节数组剩余大小
+    /// The remaining size of Byte array.
     /// </summary>
-    /// <param name="len">当前字节数组中数据段的长度</param>
+    /// <param name="len">The size of the data segment in the current byte array.</param>
     void RemainSize(int len)
     {
         remainSize -= len;
     }
 
     /// <summary>
-    /// 解析信息
+    /// Parsing information.
     /// </summary>
     public void ReadMessage(Action<ActionCode, string> processDataCallback)
     {
         while (BitConverter.ToInt32(bytes, 0) > 0)
         {
-            //数据长度
             int len = BitConverter.ToInt32(bytes, 0);
-            //解码的长度和实际长度不相同时，返回
             if (remainSize - 4 < len) return;
 
             ActionCode actionCode = (ActionCode)BitConverter.ToInt32(bytes, 4);
             string s = Encoding.UTF8.GetString(bytes, 8, len - 4);
+            Debug.WriteLine(s);
             processDataCallback(actionCode, s);
 
             RemainSize(4 + len);
@@ -43,9 +44,16 @@ public class Message
         }
     }
 
-    public static byte[] PackData(RequestCode requestData, ActionCode actionCode, string data)
+    /// <summary>
+    /// Pack data.
+    /// </summary>
+    /// <param name="requestData">Request code.</param>
+    /// <param name="actionCode">Action code.</param>
+    /// <param name="data">Data.</param>
+    /// <returns></returns>
+    public static byte[] PackData(RequestCode requestCode, ActionCode actionCode, string data)
     {
-        byte[] requestDataBytes = BitConverter.GetBytes((int)requestData);
+        byte[] requestDataBytes = BitConverter.GetBytes((int)requestCode);
         byte[] actionDataBytes = BitConverter.GetBytes((int)actionCode);
         byte[] dataBytes = Encoding.UTF8.GetBytes(data);
         int length = requestDataBytes.Length + actionDataBytes.Length + dataBytes.Length;

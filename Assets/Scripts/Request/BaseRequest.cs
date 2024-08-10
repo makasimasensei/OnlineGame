@@ -1,6 +1,7 @@
 using Common;
 using UnityEngine;
 
+
 public class BaseRequest : MonoBehaviour
 {
     protected RequestCode requestCode = RequestCode.None;
@@ -9,19 +10,23 @@ public class BaseRequest : MonoBehaviour
 
     public virtual void Awake()
     {
-        GameFacade.Instance.AddRequest(actionCode, this);
+        GameFacade.AddRequest(actionCode, this);
         gameFacade = GameFacade.Instance;
     }
 
-    public virtual void SendRequest(string data) 
+    /// <summary>
+    /// Send request method in BaseRequest class.
+    /// </summary>
+    /// <param name="data">Data needs to be sent.</param>
+    public virtual void BaseSendRequest(string data) 
     {
-        gameFacade.SendRequest(requestCode, actionCode, data);
+        GameFacade.SendRequest(requestCode, actionCode, data);
     }
 
     public virtual void OnResponse(string data) { }
 
     public virtual void OnDestroy() 
     {
-        GameFacade.Instance.RemoveRequest(actionCode);
+        GameFacade.RemoveRequest(actionCode);
     }
 }

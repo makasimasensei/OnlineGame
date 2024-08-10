@@ -42,6 +42,9 @@ public class LogInPanel : BasePanel
         tweener.OnComplete(() => uiManager.PopPanel());
     }
 
+    /// <summary>
+    /// Login button trigger events.
+    /// </summary>
     void OnLogInClick()
     {
         string msg = "";
@@ -60,6 +63,9 @@ public class LogInPanel : BasePanel
         loginRequest.SendRequest(usernameIF.text, passwordIF.text);
     }
 
+    /// <summary>
+    /// Register button trigger events.
+    /// </summary>
     void OnRegisterClick()
     {
 
