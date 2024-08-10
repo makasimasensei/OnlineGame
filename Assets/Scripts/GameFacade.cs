@@ -42,6 +42,7 @@ public class GameFacade : MonoBehaviour
         playerManager.OnInit();
         cameraManager.OnInit();
         requestManager.OnInit();
+        clientManager.OnInit();
     }
 
     void DestroyManager()
@@ -82,5 +83,4 @@ public class GameFacade : MonoBehaviour
     {
         clientManager.SendRequest(requestCode, actionCode, data);
     }
-
 }
