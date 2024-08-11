@@ -71,7 +71,7 @@ public class ClientManager : BaseManager
         }
         catch (Exception e)
         {
-            Debug.LogWarning("无法关闭服务器连接：" + e);
+            Debug.LogWarning("Unable to close the connection of server:" + e);
         }
     }
 }

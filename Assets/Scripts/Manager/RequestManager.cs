@@ -27,7 +27,7 @@ public class RequestManager : BaseManager
         BaseRequest baseRequest = DictionaryExtension.TryGet<ActionCode, BaseRequest>(actionDict, actionCode);
         if (baseRequest == null)
         {
-            Debug.LogWarning("无法得到ActionCode" + actionCode);
+            Debug.LogWarning("Can't get ActionCode:" + actionCode);
         }
         baseRequest.OnResponse(data);
     }
