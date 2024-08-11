@@ -46,7 +46,7 @@ public class GameFacade : MonoBehaviour
     void InitManager()
     {
         uiManager = new UIManager(this);
-        ShowMessage = uiManager.ShowMessage;
+        ShowMessage = uiManager.ShowMessageSync;
         audioManager = new AudioManager(this);
         playerManager = new PlayerManager(this);
         cameraManager = new CameraManager(this);

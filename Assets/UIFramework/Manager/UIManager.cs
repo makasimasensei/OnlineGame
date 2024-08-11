@@ -130,7 +130,7 @@ public class UIManager : BaseManager
         this.messagePanel = messagePanel;
     }
 
-    public void ShowMessage(string message)
+    public void ShowMessageSync(string message)
     {
         if (messagePanel == null)
         {

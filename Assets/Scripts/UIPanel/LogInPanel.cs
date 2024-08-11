@@ -32,7 +32,7 @@ public class LogInPanel : BasePanel
         loginRequest = GetComponent<LoginRequest>();
 
         logInButton.onClick.AddListener(OnLogInClick);
-        logInButton.onClick.AddListener(OnRegisterClick);
+        registerrButton.onClick.AddListener(OnRegisterClick);
     }
 
     /// <summary>
@@ -61,7 +61,7 @@ public class LogInPanel : BasePanel
         }
         if (msg != "")
         {
-            uiManager.ShowMessage(msg); return;
+            uiManager.ShowMessageSync(msg); return;
         }
         loginRequest.SendRequest(usernameIF.text, passwordIF.text);
     }
@@ -71,7 +71,7 @@ public class LogInPanel : BasePanel
     /// </summary>
     void OnRegisterClick()
     {
-
+        uiManager.PushPanel(UIPanelType.Reg);
     }
 
     /// <summary>
@@ -85,7 +85,7 @@ public class LogInPanel : BasePanel
         }
         else
         {
-            uiManager.ShowMessage("Can't login.Username or password is invalid.");
+            uiManager.ShowMessageSync("Can't login.Username or password is invalid.");
         }
     }
 
