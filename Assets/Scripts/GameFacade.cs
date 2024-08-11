@@ -1,5 +1,4 @@
 using Common;
-using System;
 using UnityEngine;
 
 public class GameFacade : MonoBehaviour
@@ -12,18 +11,6 @@ public class GameFacade : MonoBehaviour
     CameraManager cameraManager;
     RequestManager requestManager;
     ClientManager clientManager;
-
-    //Delegation to the SendRequest method in clientManager
-    public static Action<RequestCode, ActionCode, string> SendRequest;
-
-    //Delegation to the AddRequest method in requestManager
-    public static Action<ActionCode, BaseRequest> AddRequest;
-
-    //Delegation to the HandleResponse method in requestManager
-    public static Action<ActionCode, string> HandleResponse;
-
-    //Delegation to the RemoveRequest method in requestManager
-    public static Action<ActionCode> RemoveRequest;
 
     public static GameFacade Instance { get => instance; }
 
@@ -41,35 +28,22 @@ public class GameFacade : MonoBehaviour
         instance = this;
     }
 
-    /// <summary>
-    /// Initialize various Managers.
-    /// </summary>
     void InitManager()
     {
         uiManager = new UIManager(this);
         audioManager = new AudioManager(this);
         playerManager = new PlayerManager(this);
         cameraManager = new CameraManager(this);
-
         requestManager = new RequestManager(this);
-        HandleResponse = requestManager.HandleResponse;
-        AddRequest = requestManager.AddRequest;
-        RemoveRequest = requestManager.RemoveRequest;
-
         clientManager = new ClientManager(this);
-        SendRequest = clientManager.SendRequest;
 
         uiManager.OnInit();
         audioManager.OnInit();
         playerManager.OnInit();
         cameraManager.OnInit();
         requestManager.OnInit();
-        clientManager.OnInit();
     }
 
-    /// <summary>
-    /// Destroy existed Managers.
-    /// </summary>
     void DestroyManager()
     {
         uiManager.OnDestroy();
@@ -84,8 +58,29 @@ public class GameFacade : MonoBehaviour
         DestroyManager();
     }
 
+    public void AddRequest(ActionCode actionCode, BaseRequest baseRequest)
+    {
+        requestManager.AddRequest(actionCode, baseRequest);
+    }
+
+    public void RemoveRequest(ActionCode actionCode)
+    {
+        requestManager.RemoveRequest(actionCode);
+    }
+
+    public void HandleResponse(ActionCode actionCode, string data)
+    {
+        requestManager.HandleResponse(actionCode, data);
+    }
+
     public void GameFacadeCallShowMessage(string msg)
     {
         uiManager.UIManagerCallShowMessage(msg);
     }
+
+    public void SendRequest(RequestCode requestCode, ActionCode actionCode, string data)
+    {
+        clientManager.SendRequest(requestCode, actionCode, data);
+    }
+
 }

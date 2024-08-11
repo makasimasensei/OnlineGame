@@ -5,12 +5,12 @@ using UnityEngine;
 
 public class RequestManager : BaseManager
 {
-    public readonly static Dictionary<ActionCode, BaseRequest> actionDict = new Dictionary<ActionCode, BaseRequest>();
-
     public RequestManager(GameFacade gameFacade) : base(gameFacade)
     {
 
     }
+
+    Dictionary<ActionCode, BaseRequest> actionDict = new Dictionary<ActionCode, BaseRequest>();
 
     public void AddRequest(ActionCode actionCode, BaseRequest baseRequest)
     {
@@ -24,10 +24,10 @@ public class RequestManager : BaseManager
 
     public void HandleResponse(ActionCode actionCode, string data)
     {
-        BaseRequest baseRequest = actionDict.TryGet(actionCode);
+        BaseRequest baseRequest = DictionaryExtension.TryGet<ActionCode, BaseRequest>(actionDict, actionCode);
         if (baseRequest == null)
         {
-            Debug.LogWarning("Can't get ActionCode:" + actionCode);
+            Debug.LogWarning("无法得到ActionCode" + actionCode);
         }
         baseRequest.OnResponse(data);
     }

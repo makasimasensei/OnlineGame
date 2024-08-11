@@ -136,6 +136,7 @@ public class UIManager : BaseManager
         {
             Debug.Log("Can't show messages, messagePanel is null."); return;
         }
-        messagePanel.ShowMessageSync(message);
+        messagePanel.ShowMessage(message);
     }
+
 }

@@ -3,24 +3,17 @@ using Common;
 public class LoginRequest : BaseRequest
 {
     LogInPanel logInPanel;
-
-    public override void Awake()
+    void Start()
     {
         requestCode = RequestCode.User;
         actionCode = ActionCode.Login;
         logInPanel = GetComponent<LogInPanel>();
-        base.Awake();
     }
 
-    /// <summary>
-    /// Send username and password.
-    /// </summary>
-    /// <param name="username">Username.</param>
-    /// <param name="password">Password.</param>
     public void SendRequest(string username, string password)
     {
         string data = username + ":" + password;
-        BaseSendRequest(data);
+        SendRequest(data); 
     }
 
     public override void OnResponse(string data)
