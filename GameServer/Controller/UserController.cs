@@ -14,7 +14,13 @@ namespace GameServer.Controller
             requestCode = RequestCode.User;
         }
 
-        public string Login(string data, Client client, Server server)
+        /// <summary>
+        /// Call in Server class indirectly.
+        /// </summary>
+        /// <param name="data">Data.</param>
+        /// <param name="client">Client.</param>
+        /// <returns>Return code</returns>
+        public static string Login(string data, Client client)
         {
             string[] strs = data.Split(':');
             User? user = UserDAO.VerifyUser(client.conn, strs[0], strs[1]);
@@ -26,6 +32,17 @@ namespace GameServer.Controller
             {
                 return ((int)ReturnCode.Success).ToString();
             }
+        }
+
+        public static string Register(string data, Client client, Server server)
+        {
+            string[] strs = data.Split(':');
+            string username = strs[0];
+            string password = strs[1];
+            bool res = UserDAO.GetUserByUsername(client.conn, username);
+            if (res) return ((int)ReturnCode.Fail).ToString();
+            UserDAO.AddUser(client.conn, username, password);
+            return ((int)ReturnCode.Success).ToString();
         }
     }
 }
