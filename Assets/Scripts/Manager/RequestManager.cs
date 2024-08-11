@@ -10,7 +10,7 @@ public class RequestManager : BaseManager
 
     }
 
-    Dictionary<ActionCode, BaseRequest> actionDict = new Dictionary<ActionCode, BaseRequest>();
+    readonly Dictionary<ActionCode, BaseRequest> actionDict = new Dictionary<ActionCode, BaseRequest>();
 
     public void AddRequest(ActionCode actionCode, BaseRequest baseRequest)
     {

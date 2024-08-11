@@ -8,13 +8,16 @@ public class ClientManager : BaseManager
     const string ip = "127.0.0.1";
     const int port = 6000;
 
-    public ClientManager(GameFacade facade) : base(facade)
-    {
-
-    }
-
     Socket clientSocket;
     Message message = new Message();
+
+    Action<ActionCode, string> OnProcessDataCallback;
+
+
+    public ClientManager(GameFacade facade) : base(facade)
+    {
+        OnProcessDataCallback = facade.HandleResponse;
+    }
 
     public override void OnInit()
     {
@@ -27,8 +30,9 @@ public class ClientManager : BaseManager
         }
         catch (Exception e)
         {
-            Debug.LogWarning("无法连接到服务器：" + e);
+            Debug.LogWarning("Unable to connect to server:" + e);
         }
+        Start();
     }
 
     void Start()
@@ -56,10 +60,6 @@ public class ClientManager : BaseManager
         clientSocket.Send(bytes);
     }
 
-    void OnProcessDataCallback(ActionCode actionCode, string data)
-    {
-        facade.HandleResponse(actionCode, data);
-    }
 
     public override void OnDestroy()
     {

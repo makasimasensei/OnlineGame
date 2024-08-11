@@ -1,4 +1,6 @@
 using Common;
+using System;
+using UnityEditor.PackageManager.Requests;
 using UnityEngine;
 
 public class GameFacade : MonoBehaviour
@@ -11,6 +13,12 @@ public class GameFacade : MonoBehaviour
     CameraManager cameraManager;
     RequestManager requestManager;
     ClientManager clientManager;
+
+    public Action<ActionCode, BaseRequest> AddRequest;
+    public Action<ActionCode> RemoveRequest;
+    public Action<RequestCode, ActionCode, string> SendRequest;
+    public Action<ActionCode, string> HandleResponse;
+
 
     public static GameFacade Instance { get => instance; }
 
@@ -35,7 +43,11 @@ public class GameFacade : MonoBehaviour
         playerManager = new PlayerManager(this);
         cameraManager = new CameraManager(this);
         requestManager = new RequestManager(this);
+        AddRequest = requestManager.AddRequest;
+        RemoveRequest = requestManager.RemoveRequest;
+        HandleResponse = requestManager.HandleResponse;
         clientManager = new ClientManager(this);
+        SendRequest = clientManager.SendRequest;
 
         uiManager.OnInit();
         audioManager.OnInit();
@@ -59,28 +71,8 @@ public class GameFacade : MonoBehaviour
         DestroyManager();
     }
 
-    public void AddRequest(ActionCode actionCode, BaseRequest baseRequest)
-    {
-        requestManager.AddRequest(actionCode, baseRequest);
-    }
-
-    public void RemoveRequest(ActionCode actionCode)
-    {
-        requestManager.RemoveRequest(actionCode);
-    }
-
-    public void HandleResponse(ActionCode actionCode, string data)
-    {
-        requestManager.HandleResponse(actionCode, data);
-    }
-
     public void GameFacadeCallShowMessage(string msg)
     {
         uiManager.UIManagerCallShowMessage(msg);
-    }
-
-    public void SendRequest(RequestCode requestCode, ActionCode actionCode, string data)
-    {
-        clientManager.SendRequest(requestCode, actionCode, data);
     }
 }
