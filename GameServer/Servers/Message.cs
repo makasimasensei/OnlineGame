@@ -32,6 +32,7 @@ namespace GameServer.Servers
                 RequestCode requestCode = (RequestCode)BitConverter.ToInt32(bytes, 4);
                 ActionCode actionCode = (ActionCode)BitConverter.ToInt32(bytes, 8);
                 string s = Encoding.UTF8.GetString(bytes, 12, len - 8);
+                Console.WriteLine("Messages from client:" + s);
                 processDataCallback(requestCode, actionCode, s);
 
                 RemainSize(4 + len);

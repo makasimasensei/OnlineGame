@@ -65,10 +65,7 @@ namespace GameServer.Controller
             object? o = method.Invoke(controller, parameters);
             //Type conversion.
             string? oString = o as string;
-            if (o == null || String.IsNullOrEmpty(oString))
-            {
-                return;
-            }
+            if (o == null || String.IsNullOrEmpty(oString)) return;
             //Send response.
             Server.SendResponse(client, actionCode, oString);
         }

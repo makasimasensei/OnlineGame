@@ -11,7 +11,7 @@ namespace GameServer.Servers
         public Socket client;
         public Server server;
         Message receiveMsg = new();
-        readonly MySqlConnection conn;
+        public readonly MySqlConnection conn;
 
         public Client(Socket c, Server s)
         {
