@@ -17,11 +17,17 @@ public class StartPanel : BasePanel
         loginButton.onClick.AddListener(OnLoginClick);
     }
 
+    /// <summary>
+    /// Click the Login button.
+    /// </summary>
     public void OnLoginClick()
     {
         uiManager.PushPanel(UIPanelType.LogIn);
     }
 
+    /// <summary>
+    /// Pause.
+    /// </summary>
     public override void OnPause()
     {
         base.OnPause();
@@ -29,6 +35,9 @@ public class StartPanel : BasePanel
         loginButton.transform.DOScale(0, 0.2f).OnComplete(() => loginButton.gameObject.SetActive(false));
     }
 
+    /// <summary>
+    /// Resume.
+    /// </summary>
     public override void OnResume()
     {
         base.OnResume();

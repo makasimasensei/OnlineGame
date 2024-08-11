@@ -22,6 +22,10 @@ public class LoginRequest : BaseRequest
         SendRequest(data); 
     }
 
+    /// <summary>
+    /// Handle response data.
+    /// </summary>
+    /// <param name="data">Data.</param>
     public override void OnResponse(string data)
     {
         base.OnResponse(data);

@@ -12,23 +12,37 @@ public class RequestManager : BaseManager
 
     readonly Dictionary<ActionCode, BaseRequest> actionDict = new Dictionary<ActionCode, BaseRequest>();
 
-    public void AddRequest(ActionCode actionCode, BaseRequest baseRequest)
+    /// <summary>
+    /// Add actionCode from actionDict.
+    /// </summary>
+    /// <param name="actionCode">Action code.</param>
+    /// <param name="baseRequest">BaseRequest class.</param>
+    public void AddAction(ActionCode actionCode, BaseRequest baseRequest)
     {
         actionDict.Add(actionCode, baseRequest);
     }
 
-    public virtual void RemoveRequest(ActionCode actionCode)
+    /// <summary>
+    /// Remove actionCode from actionDict.
+    /// </summary>
+    /// <param name="actionCode">Action code.</param>
+    public virtual void RemoveAction(ActionCode actionCode)
     {
         actionDict.Remove(actionCode);
     }
 
+    /// <summary>
+    /// Handle response data.
+    /// </summary>
+    /// <param name="actionCode">Action code.</param>
+    /// <param name="data">Data.</param>
     public void HandleResponse(ActionCode actionCode, string data)
     {
-        BaseRequest baseRequest = DictionaryExtension.TryGet<ActionCode, BaseRequest>(actionDict, actionCode);
-        if (baseRequest == null)
+        BaseRequest Request = DictionaryExtension.TryGet<ActionCode, BaseRequest>(actionDict, actionCode);
+        if (Request == null)
         {
             Debug.LogWarning("Can't get ActionCode:" + actionCode);
         }
-        baseRequest.OnResponse(data);
+        Request.OnResponse(data);
     }
 }

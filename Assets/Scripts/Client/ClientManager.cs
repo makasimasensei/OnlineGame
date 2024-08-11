@@ -9,16 +9,18 @@ public class ClientManager : BaseManager
     const int port = 6000;
 
     Socket clientSocket;
-    Message message = new Message();
+    readonly Message message = new Message();
 
-    Action<ActionCode, string> OnProcessDataCallback;
-
+    readonly Action<ActionCode, string> OnProcessDataCallback;
 
     public ClientManager(GameFacade facade) : base(facade)
     {
         OnProcessDataCallback = facade.HandleResponse;
     }
 
+    /// <summary>
+    /// Initiation.
+    /// </summary>
     public override void OnInit()
     {
         base.OnInit();
@@ -35,11 +37,18 @@ public class ClientManager : BaseManager
         Start();
     }
 
+    /// <summary>
+    /// Begin receive messages.
+    /// </summary>
     void Start()
     {
         clientSocket.BeginReceive(message.Bytes, 0, 1024, SocketFlags.None, ReceiveCallback, null);
     }
 
+    /// <summary>
+    /// Callback function that receives messages from the server.
+    /// </summary>
+    /// <param name="ar">The asynchronous result returned.</param>
     void ReceiveCallback(IAsyncResult ar)
     {
         try
@@ -54,13 +63,21 @@ public class ClientManager : BaseManager
         }
     }
 
+    /// <summary>
+    /// Send request to server.
+    /// </summary>
+    /// <param name="requestCode">Request code.</param>
+    /// <param name="actionCode">Action code.</param>
+    /// <param name="data">Data.</param>
     public void SendRequest(RequestCode requestCode, ActionCode actionCode, string data)
     {
         byte[] bytes = Message.PackData(requestCode, actionCode, data);
         clientSocket.Send(bytes);
     }
 
-
+    /// <summary>
+    /// Destroy.
+    /// </summary>
     public override void OnDestroy()
     {
         base.OnDestroy();

@@ -35,6 +35,9 @@ public class LogInPanel : BasePanel
         logInButton.onClick.AddListener(OnRegisterClick);
     }
 
+    /// <summary>
+    /// Click the close button.
+    /// </summary>
     void OnCloseClick()
     {
         transform.DOScale(0, 0.2f);
@@ -42,6 +45,9 @@ public class LogInPanel : BasePanel
         tweener.OnComplete(() => uiManager.PopPanel());
     }
 
+    /// <summary>
+    /// Click the Login button.
+    /// </summary>
     void OnLogInClick()
     {
         string msg = "";
@@ -55,16 +61,23 @@ public class LogInPanel : BasePanel
         }
         if (msg != "")
         {
-            uiManager.UIManagerCallShowMessage(msg); return;
+            uiManager.ShowMessage(msg); return;
         }
         loginRequest.SendRequest(usernameIF.text, passwordIF.text);
     }
 
+    /// <summary>
+    /// Click the register button.
+    /// </summary>
     void OnRegisterClick()
     {
 
     }
 
+    /// <summary>
+    /// Handle the returnCode.
+    /// </summary>
+    /// <param name="returnCode">The code server returns</param>
     public void OnLoginResponse(ReturnCode returnCode)
     {
         if (returnCode == ReturnCode.Success)
@@ -72,7 +85,7 @@ public class LogInPanel : BasePanel
         }
         else
         {
-            uiManager.UIManagerCallShowMessage("Can't login.Username or password is invalid.");
+            uiManager.ShowMessage("Can't login.Username or password is invalid.");
         }
     }
 

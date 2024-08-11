@@ -1,6 +1,5 @@
 using Common;
 using System;
-using UnityEditor.PackageManager.Requests;
 using UnityEngine;
 
 public class GameFacade : MonoBehaviour
@@ -14,11 +13,16 @@ public class GameFacade : MonoBehaviour
     RequestManager requestManager;
     ClientManager clientManager;
 
+    ///Delegation to the ShowMessage method in uiManager.
+    public Action<string> ShowMessage;
+    ///Delegation to the AddRequest method in requestManager.
     public Action<ActionCode, BaseRequest> AddRequest;
+    ///Delegation to the RemoveRequest method in requestManager.
     public Action<ActionCode> RemoveRequest;
+    ///Delegation to the SendRequest method in clientManager.
     public Action<RequestCode, ActionCode, string> SendRequest;
+    ///Delegation to the HandleResponse method in requestManager.
     public Action<ActionCode, string> HandleResponse;
-
 
     public static GameFacade Instance { get => instance; }
 
@@ -36,15 +40,19 @@ public class GameFacade : MonoBehaviour
         instance = this;
     }
 
+    /// <summary>
+    /// Initiation.
+    /// </summary>
     void InitManager()
     {
         uiManager = new UIManager(this);
+        ShowMessage = uiManager.ShowMessage;
         audioManager = new AudioManager(this);
         playerManager = new PlayerManager(this);
         cameraManager = new CameraManager(this);
         requestManager = new RequestManager(this);
-        AddRequest = requestManager.AddRequest;
-        RemoveRequest = requestManager.RemoveRequest;
+        AddRequest = requestManager.AddAction;
+        RemoveRequest = requestManager.RemoveAction;
         HandleResponse = requestManager.HandleResponse;
         clientManager = new ClientManager(this);
         SendRequest = clientManager.SendRequest;
@@ -57,6 +65,9 @@ public class GameFacade : MonoBehaviour
         clientManager.OnInit();
     }
 
+    /// <summary>
+    /// Destroy all managers.
+    /// </summary>
     void DestroyManager()
     {
         uiManager.OnDestroy();
@@ -69,10 +80,5 @@ public class GameFacade : MonoBehaviour
     void OnDestroy()
     {
         DestroyManager();
-    }
-
-    public void GameFacadeCallShowMessage(string msg)
-    {
-        uiManager.UIManagerCallShowMessage(msg);
     }
 }

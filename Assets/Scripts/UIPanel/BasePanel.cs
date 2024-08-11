@@ -8,7 +8,7 @@ public class BasePanel : MonoBehaviour
     public UIManager UiManager { set => uiManager = value; }
 
     /// <summary>
-    /// 界面被显示出来
+    /// Display.
     /// </summary>
     public virtual void OnEnter()
     {
@@ -16,7 +16,7 @@ public class BasePanel : MonoBehaviour
     }
 
     /// <summary>
-    /// 界面暂停
+    /// Pause.
     /// </summary>
     public virtual void OnPause()
     {
@@ -24,7 +24,7 @@ public class BasePanel : MonoBehaviour
     }
 
     /// <summary>
-    /// 界面继续
+    /// Resume.
     /// </summary>
     public virtual void OnResume()
     {
@@ -32,7 +32,7 @@ public class BasePanel : MonoBehaviour
     }
 
     /// <summary>
-    /// 界面不显示,退出这个界面，界面被关系
+    /// Exit.
     /// </summary>
     public virtual void OnExit()
     {
