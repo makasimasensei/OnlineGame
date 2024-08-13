@@ -67,7 +67,6 @@ namespace GameServer.DAO
 
         public static void AddUser(MySqlConnection connection, string username, string password)
         {
-            MySqlDataReader? mySqlDataReader = null;
             try
             {
                 MySqlCommand command = new("insert into user set username = @username, password = @password", connection);
