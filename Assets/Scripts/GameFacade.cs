@@ -23,6 +23,10 @@ public class GameFacade : MonoBehaviour
     public Action<RequestCode, ActionCode, string> SendRequest;
     ///Delegation to the HandleResponse method in requestManager.
     public Action<ActionCode, string> HandleResponse;
+    ///Delegation to the PlayBgSound method in audioManager.
+    public Action<string> PlayBgSound;
+    ///Delegation to the PlayNormalSound method in audioManager.
+    public Action<string> PlayNormalSound;
 
     public static GameFacade Instance { get => instance; }
 
@@ -46,8 +50,12 @@ public class GameFacade : MonoBehaviour
     void InitManager()
     {
         uiManager = new UIManager(this);
-        ShowMessage = uiManager.ShowMessage;
+        ShowMessage = uiManager.ShowMessageSync;
+
         audioManager = new AudioManager(this);
+        PlayBgSound = audioManager.PlayBgSound;
+        PlayNormalSound = audioManager.PlayNormalSound;
+
         playerManager = new PlayerManager(this);
         cameraManager = new CameraManager(this);
         requestManager = new RequestManager(this);
@@ -63,6 +71,11 @@ public class GameFacade : MonoBehaviour
         cameraManager.OnInit();
         requestManager.OnInit();
         clientManager.OnInit();
+    }
+
+    void UpdateManager()
+    {
+
     }
 
     /// <summary>

@@ -22,6 +22,7 @@ public class StartPanel : BasePanel
     /// </summary>
     public void OnLoginClick()
     {
+        PlayClickSound();
         uiManager.PushPanel(UIPanelType.LogIn);
     }
 

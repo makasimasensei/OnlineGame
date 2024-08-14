@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 using System;
 
@@ -33,6 +32,22 @@ public class UIManager : BaseManager
     Dictionary<UIPanelType, BasePanel> panelDict;//保存所有实例化面板的游戏物体身上的BasePanel组件
     Stack<BasePanel> panelStack;
     MessagePanel messagePanel;
+    UIPanelType panelTypeToPush;
+
+    public override void Update()
+    {
+        base.Update();
+        if(panelTypeToPush!= UIPanelType.None)
+        {
+            PushPanel(panelTypeToPush);
+            panelTypeToPush = UIPanelType.None;
+        }
+    }
+
+    public void PushPanelSync(UIPanelType panelType)
+    {
+        panelTypeToPush = panelType;
+    }
 
     /// <summary>
     /// 把某个页面入栈，  把某个页面显示在界面上
@@ -58,8 +73,7 @@ public class UIManager : BaseManager
     /// </summary>
     public void PopPanel()
     {
-        if (panelStack == null)
-            panelStack = new Stack<BasePanel>();
+        panelStack ??= new Stack<BasePanel>();
 
         if (panelStack.Count <= 0) return;
 
@@ -79,10 +93,7 @@ public class UIManager : BaseManager
     /// <returns></returns>
     private BasePanel GetPanel(UIPanelType panelType)
     {
-        if (panelDict == null)
-        {
-            panelDict = new Dictionary<UIPanelType, BasePanel>();
-        }
+        panelDict ??= new Dictionary<UIPanelType, BasePanel>();
 
         BasePanel panel = panelDict.TryGet(panelType);
 
@@ -95,6 +106,7 @@ public class UIManager : BaseManager
             GameObject instPanel = GameObject.Instantiate(Resources.Load(path)) as GameObject;
             instPanel.transform.SetParent(CanvasTransform, false);
             instPanel.GetComponent<BasePanel>().UiManager = this;
+            instPanel.GetComponent<BasePanel>().GameFacade = facade;
             panelDict.Add(panelType, instPanel.GetComponent<BasePanel>());
             return instPanel.GetComponent<BasePanel>();
         }
@@ -130,7 +142,7 @@ public class UIManager : BaseManager
         this.messagePanel = messagePanel;
     }
 
-    public void ShowMessage(string message)
+    public void ShowMessageSync(string message)
     {
         if (messagePanel == null)
         {
