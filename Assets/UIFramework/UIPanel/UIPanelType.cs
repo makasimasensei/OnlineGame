@@ -3,9 +3,12 @@ using System.Collections;
 using System;
 
 
-public enum UIPanelType  {
+public enum UIPanelType
+{
+    None,
     Message,
     StartButton,
     LogIn,
     Reg,
+    RoomList,
 }

@@ -4,8 +4,15 @@ using System.Collections;
 public class BasePanel : MonoBehaviour 
 {
     protected UIManager uiManager;
+    GameFacade gameFacade;
 
     public UIManager UiManager { set => uiManager = value; }
+    public GameFacade GameFacade { set => gameFacade = value; }
+
+    protected void PlayClickSound()
+    {
+        gameFacade.PlayNormalSound("Sounds/ButtonClick");
+    }
 
     /// <summary>
     /// Display.

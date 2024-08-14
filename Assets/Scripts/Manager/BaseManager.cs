@@ -12,6 +12,8 @@ public class BaseManager
         this.facade = facade;
     }
 
+    public virtual void Update(){}
+
     public virtual void OnInit() { }
     public virtual void OnDestroy() { }
 }

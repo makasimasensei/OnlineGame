@@ -43,6 +43,7 @@ public class RegisterPanel : BasePanel
     /// </summary>
     void OnRegisterClick()
     {
+        PlayClickSound();
         string s = "";
         if (string.IsNullOrEmpty(username_IF.text))
         {
@@ -50,11 +51,11 @@ public class RegisterPanel : BasePanel
         }
         if (string.IsNullOrEmpty(password_IF.text) || string.IsNullOrEmpty(repassword_IF.text))
         {
-            s += "\nPassword can't be null.";
+            s += "Password can't be null.";
         }
         if (password_IF.text != repassword_IF.text)
         {
-            s += "\nPassword inconsistency.";
+            s += "Password inconsistency.";
         }
         if (s != "")
         {
@@ -83,6 +84,7 @@ public class RegisterPanel : BasePanel
     /// </summary>
     void OnCloseClick()
     {
+        PlayClickSound();
         transform.DOScale(0, 0.2f);
         Tweener tweener = transform.DOLocalMove(new Vector3(1000, 0, 0), 0.2f);
         tweener.OnComplete(() => uiManager.PopPanel());

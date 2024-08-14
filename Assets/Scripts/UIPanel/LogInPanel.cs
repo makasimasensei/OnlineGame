@@ -40,6 +40,7 @@ public class LogInPanel : BasePanel
     /// </summary>
     void OnCloseClick()
     {
+        PlayClickSound();
         transform.DOScale(0, 0.2f);
         Tweener tweener = transform.DOLocalMove(new Vector3(1000, 0, 0), 0.2f);
         tweener.OnComplete(() => uiManager.PopPanel());
@@ -50,6 +51,7 @@ public class LogInPanel : BasePanel
     /// </summary>
     void OnLogInClick()
     {
+        PlayClickSound();
         string msg = "";
         if (string.IsNullOrEmpty(usernameIF.text))
         {
@@ -71,6 +73,7 @@ public class LogInPanel : BasePanel
     /// </summary>
     void OnRegisterClick()
     {
+        PlayClickSound();
         uiManager.PushPanel(UIPanelType.Reg);
     }
 
@@ -82,6 +85,7 @@ public class LogInPanel : BasePanel
     {
         if (returnCode == ReturnCode.Success)
         {
+            uiManager.PushPanelSync(UIPanelType.RoomList);
         }
         else
         {
