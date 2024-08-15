@@ -62,6 +62,7 @@ namespace GameServer.Servers
         {
             try
             {
+                if (client == null || client.Connected == false) return;
                 int len = client.EndReceive(ar);
                 if (len == 0) Close();
                 receiveMsg.ReadMessage(OnProcessMessage);

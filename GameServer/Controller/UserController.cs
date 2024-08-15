@@ -7,8 +7,6 @@ namespace GameServer.Controller
 {
     class UserController : BaseController
     {
-        readonly UserDAO userDAO = new();
-
         public UserController()
         {
             requestCode = RequestCode.User;
@@ -20,7 +18,7 @@ namespace GameServer.Controller
         /// <param name="data">Data.</param>
         /// <param name="client">Client.</param>
         /// <returns>Return code</returns>
-        public static string Login(string data, Client client)
+        public static string Login(string data, Client client, Server server)
         {
             string[] strs = data.Split(':');
             User? user = UserDAO.VerifyUser(client.conn, strs[0], strs[1]);
@@ -34,6 +32,13 @@ namespace GameServer.Controller
             }
         }
 
+        /// <summary>
+        /// Call in Server class indirectly.
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="client"></param>
+        /// <param name="server"></param>
+        /// <returns></returns>
         public static string Register(string data, Client client, Server server)
         {
             string[] strs = data.Split(':');
