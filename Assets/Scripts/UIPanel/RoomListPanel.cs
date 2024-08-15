@@ -7,7 +7,7 @@ public class RoomListPanel : BasePanel
     RectTransform battleRes;
     RectTransform roomList;
 
-     void Start()
+    void Start()
     {
         battleRes = transform.Find("BattleRes").GetComponent<RectTransform>();
         roomList = transform.Find("RoomList").GetComponent<RectTransform>();
@@ -18,7 +18,8 @@ public class RoomListPanel : BasePanel
     public override void OnEnter()
     {
         base.OnEnter();
-        if (battleRes != null ) EnterAnim();
+        SetBattleRes();
+        if (battleRes != null) EnterAnim();
     }
 
     public override void OnExit()
@@ -47,5 +48,13 @@ public class RoomListPanel : BasePanel
     {
         battleRes.DOLocalMoveX(-1000, 0.4f);
         roomList.DOLocalMoveX(1000, 0.4f).OnComplete(() => gameObject.SetActive(false));
+    }
+
+    void SetBattleRes()
+    {
+        UserData userData = gameFacade.GetUserData();
+        transform.Find("BattleRes/Username").GetComponent<Text>().text = userData.UserName;
+        transform.Find("BattleRes/TotalCount").GetComponent<Text>().text = "总场数：" + userData.TotalCount.ToString();
+        transform.Find("BattleRes/WinCount").GetComponent<Text>().text = "胜利：" + userData.WinCount.ToString();
     }
 }

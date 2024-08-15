@@ -53,6 +53,7 @@ public class ClientManager : BaseManager
     {
         try
         {
+            if (clientSocket == null || clientSocket.Connected == false) return;
             int count = clientSocket.EndReceive(ar);
             message.ReadMessage(OnProcessDataCallback);
             Start();

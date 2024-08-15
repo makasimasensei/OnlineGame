@@ -78,6 +78,9 @@ public class GameFacade : MonoBehaviour
         clientManager.OnInit();
     }
 
+    /// <summary>
+    /// Update the manager.
+    /// </summary>
     void UpdateManager()
     {
         uiManager.Update();
@@ -94,6 +97,25 @@ public class GameFacade : MonoBehaviour
         cameraManager.OnDestroy();
         requestManager.OnDestroy();
         clientManager.OnDestroy() ;
+    }
+
+    /// <summary>
+    /// Set the UserData property in playerManager.
+    /// </summary>
+    /// <param name="userData">UserData class.</param>
+    public void SetUserData(UserData userData)
+    {
+        playerManager.UserData = userData;
+    }
+
+    /// <summary>
+    /// Get the UserData property in playerManager.
+    /// </summary>
+    /// <param name="userData"></param>
+    /// <returns></returns>
+    public UserData GetUserData()
+    {
+        return playerManager.UserData;
     }
 
     void OnDestroy()

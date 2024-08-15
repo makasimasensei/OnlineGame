@@ -19,7 +19,7 @@ public class LoginRequest : BaseRequest
     public void SendRequest(string username, string password)
     {
         string data = username + ":" + password;
-        SendRequest(data); 
+        SendRequest(data);
     }
 
     /// <summary>
@@ -29,7 +29,16 @@ public class LoginRequest : BaseRequest
     public override void OnResponse(string data)
     {
         base.OnResponse(data);
-        ReturnCode returnCode = (ReturnCode)int.Parse(data);
+        string[] strs = data.Split(',');
+        ReturnCode returnCode = (ReturnCode)int.Parse(strs[0]);
         logInPanel.OnLoginResponse(returnCode);
+        if (returnCode == ReturnCode.Success)
+        {
+            string username = strs[1];
+            int totolCount = int.Parse(strs[2]);
+            int winCount = int.Parse(strs[3]);
+            UserData ud = new UserData(username, totolCount, winCount);
+            gameFacade.SetUserData(ud);
+        }
     }
 }
