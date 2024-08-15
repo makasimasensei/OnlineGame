@@ -13,15 +13,8 @@ public class LogInPanel : BasePanel
     Button registerrButton;
     LoginRequest loginRequest;
 
-    public override void OnEnter()
+    void Start()
     {
-        base.OnEnter();
-        gameObject.SetActive(true);
-        transform.localScale = Vector3.zero;
-        transform.DOScale(2.5f, 1);
-        transform.localPosition = new Vector3(1000, 0, 0);
-        transform.DOLocalMove(Vector3.zero, 0.2f);
-
         closeButton = transform.Find("CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(OnCloseClick);
 
@@ -33,6 +26,30 @@ public class LogInPanel : BasePanel
 
         logInButton.onClick.AddListener(OnLogInClick);
         registerrButton.onClick.AddListener(OnRegisterClick);
+    }
+
+    public override void OnEnter()
+    {
+        base.OnEnter();
+        EnterAnim();
+    }
+
+    public override void OnPause()
+    {
+        base.OnPause();
+        HideAnim();
+    }
+
+    public override void OnResume()
+    {
+        base.OnResume();
+        EnterAnim();
+    }
+
+    public override void OnExit()
+    {
+        base.OnExit();
+        gameObject.SetActive(false);
     }
 
     /// <summary>
@@ -93,9 +110,22 @@ public class LogInPanel : BasePanel
         }
     }
 
-    public override void OnExit()
+    /// <summary>
+    /// Enter the Animation.
+    /// </summary>
+    void EnterAnim()
     {
-        base.OnExit();
-        gameObject.SetActive(false);
+        gameObject.SetActive(true);
+        transform.localScale = Vector3.zero;
+        transform.DOScale(2.5f, 1);
+        transform.localPosition = new Vector3(1000, 0, 0);
+        transform.DOLocalMove(Vector3.zero, 0.2f);
+    }
+
+    void HideAnim()
+    {
+        transform.DOScale(0, 0.2f);
+        Tweener tweener = transform.DOLocalMove(new Vector3(1000, 0, 0), 0.2f);
+        tweener.OnComplete(() => gameObject.SetActive(false));
     }
 }

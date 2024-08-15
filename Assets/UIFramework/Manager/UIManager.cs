@@ -36,7 +36,6 @@ public class UIManager : BaseManager
 
     public override void Update()
     {
-        base.Update();
         if(panelTypeToPush!= UIPanelType.None)
         {
             PushPanel(panelTypeToPush);

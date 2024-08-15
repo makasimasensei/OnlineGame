@@ -44,6 +44,11 @@ public class GameFacade : MonoBehaviour
         instance = this;
     }
 
+     void Update()
+    {
+        UpdateManager();
+    }
+
     /// <summary>
     /// Initiation.
     /// </summary>
@@ -75,7 +80,7 @@ public class GameFacade : MonoBehaviour
 
     void UpdateManager()
     {
-
+        uiManager.Update();
     }
 
     /// <summary>
@@ -88,6 +93,7 @@ public class GameFacade : MonoBehaviour
         playerManager.OnDestroy();
         cameraManager.OnDestroy();
         requestManager.OnDestroy();
+        clientManager.OnDestroy() ;
     }
 
     void OnDestroy()
