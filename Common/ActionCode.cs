@@ -5,5 +5,8 @@
         None,
         Login,
         Register,
+        RoomList,
+        CreateRoom,
+        JoinRoom,
     }
 }

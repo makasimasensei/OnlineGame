@@ -4,5 +4,6 @@
     {
         None,
         User,
+        Room,
     }
 }

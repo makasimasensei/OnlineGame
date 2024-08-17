@@ -13,6 +13,7 @@ namespace GameServer.Servers
         Socket? server = null;
         readonly IPEndPoint ipEndPoint;
         readonly List<Client> clientsList = new();
+        readonly List<Room> roomList = new();
         readonly ControllerManager controllerManager;
         public readonly Action<RequestCode, ActionCode, string, Client> HandleRequest;
 
