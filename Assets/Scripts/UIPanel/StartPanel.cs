@@ -9,6 +9,9 @@ public class StartPanel : BasePanel
     Button loginButton;
     Animator animator;
 
+    /// <summary>
+    /// Override OnEnter.
+    /// </summary>
     public override void OnEnter()
     {
         base.OnEnter();

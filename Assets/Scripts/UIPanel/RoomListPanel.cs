@@ -21,6 +21,9 @@ public class RoomListPanel : BasePanel
         EnterAnim();
     }
 
+    /// <summary>
+    /// Override OnEnter.
+    /// </summary>
     public override void OnEnter()
     {
         base.OnEnter();
@@ -28,30 +31,45 @@ public class RoomListPanel : BasePanel
         if (battleRes != null) EnterAnim();
     }
 
+    /// <summary>
+    /// Override OnPause.
+    /// </summary>
     public override void OnPause()
     {
         base.OnPause();
         HideAnim();
     }
 
+    /// <summary>
+    /// Override OnResume.
+    /// </summary>
     public override void OnResume()
     {
         base.OnResume();
         EnterAnim();
     }
 
+    /// <summary>
+    /// Override OnExit.
+    /// </summary>
     public override void OnExit()
     {
         base.OnExit();
         HideAnim();
     }
 
+    /// <summary>
+    /// Click the close button,
+    /// </summary>
     void OnCloseClick()
     {
         PlayClickSound();
         uiManager.PopPanel();
     }
 
+    /// <summary>
+    /// Enter the animation.
+    /// </summary>
     void EnterAnim()
     {
         gameObject.SetActive(true);
@@ -62,12 +80,18 @@ public class RoomListPanel : BasePanel
         roomList.DOLocalMoveX(200, 0.4f);
     }
 
+    /// <summary>
+    /// Hide the animation.
+    /// </summary>
     void HideAnim()
     {
         battleRes.DOLocalMoveX(-1000, 0.4f);
         roomList.DOLocalMoveX(1000, 0.4f).OnComplete(() => gameObject.SetActive(false));
     }
 
+    /// <summary>
+    /// Set the text of battle interface.
+    /// </summary>
     void SetBattleRes()
     {
         UserData userData = gameFacade.GetUserData();
@@ -76,6 +100,10 @@ public class RoomListPanel : BasePanel
         transform.Find("BattleRes/WinCount").GetComponent<Text>().text = "Ê¤Àû£º" + userData.WinCount.ToString();
     }
 
+    /// <summary>
+    /// Load the items of the room.
+    /// </summary>
+    /// <param name="count"></param>
     void LoadRoomItem(int count)
     {
         for (int i = 0; i < count; i++)
@@ -86,6 +114,9 @@ public class RoomListPanel : BasePanel
         }
     }
 
+    /// <summary>
+    /// Click to create room.
+    /// </summary>
     void OnCreateRoomClick()
     {
         uiManager.PushPanel(UIPanelType.Room);

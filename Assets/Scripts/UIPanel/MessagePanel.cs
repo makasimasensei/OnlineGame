@@ -8,14 +8,6 @@ public class MessagePanel : BasePanel
     Text text;
     string message;
 
-    public override void OnEnter()
-    {
-        base.OnEnter();
-        text = GetComponent<Text>();
-        text.enabled = false;
-        uiManager.InjectMessagePanel(this);
-    }
-
     private void Update()
     {
         if (message != null)
@@ -23,6 +15,17 @@ public class MessagePanel : BasePanel
             ShowMessage(message);
             message = null;
         }
+    }
+
+    /// <summary>
+    /// Override OnEnter.
+    /// </summary>
+    public override void OnEnter()
+    {
+        base.OnEnter();
+        text = GetComponent<Text>();
+        text.enabled = false;
+        uiManager.InjectMessagePanel(this);
     }
 
     /// <summary>
