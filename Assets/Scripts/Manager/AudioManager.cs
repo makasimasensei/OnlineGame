@@ -10,6 +10,9 @@ public class AudioManager : BaseManager
 
     }
 
+    /// <summary>
+    /// Override OnInit.
+    /// </summary>
     public override void OnInit()
     {
         base.OnInit();
@@ -53,6 +56,11 @@ public class AudioManager : BaseManager
         PlaySound(normalAudioSource, LoadSound(soundName), 1f);
     }
 
+    /// <summary>
+    /// Load the sound AudioClip.
+    /// </summary>
+    /// <param name="path"></param>
+    /// <returns></returns>
     AudioClip LoadSound(string path)
     {
         return Resources.Load<AudioClip>(path);
