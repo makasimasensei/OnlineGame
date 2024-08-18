@@ -6,11 +6,15 @@ public class RoomListPanel : BasePanel
 {
     RectTransform battleRes;
     RectTransform roomList;
+    VerticalLayoutGroup verticalLayoutGroup;
+    GameObject roomItemPrefab;
 
     void Start()
     {
         battleRes = transform.Find("BattleRes").GetComponent<RectTransform>();
         roomList = transform.Find("RoomList").GetComponent<RectTransform>();
+        verticalLayoutGroup = transform.Find("RoomList/ScrollRect/Layout").GetComponent<VerticalLayoutGroup>();
+        roomItemPrefab = Resources.Load("UIPanel/RoomItem") as GameObject;
         transform.Find("RoomList").Find("CloseButton").GetComponent<Button>().onClick.AddListener(OnCloseClick);
         EnterAnim();
     }
@@ -56,5 +60,23 @@ public class RoomListPanel : BasePanel
         transform.Find("BattleRes/Username").GetComponent<Text>().text = userData.UserName;
         transform.Find("BattleRes/TotalCount").GetComponent<Text>().text = "总场数：" + userData.TotalCount.ToString();
         transform.Find("BattleRes/WinCount").GetComponent<Text>().text = "胜利：" + userData.WinCount.ToString();
+    }
+
+    void LoadRoomItem(int count)
+    {
+        for (int i = 0; i < count; i++)
+        {
+            GameObject roomItem = GameObject.Instantiate(roomItemPrefab);
+            roomItem.transform.SetParent(verticalLayoutGroup.transform);
+            roomItem.transform.localScale = Vector3.one;
+        }
+    }
+
+    private void Update()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            LoadRoomItem(1);
+        }
     }
 }
