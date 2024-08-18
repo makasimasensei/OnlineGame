@@ -28,24 +28,36 @@ public class LogInPanel : BasePanel
         registerrButton.onClick.AddListener(OnRegisterClick);
     }
 
+    /// <summary>
+    /// Override OnEnter.
+    /// </summary>
     public override void OnEnter()
     {
         base.OnEnter();
         EnterAnim();
     }
 
+    /// <summary>
+    /// Override OnEnter.
+    /// </summary>
     public override void OnPause()
     {
         base.OnPause();
         HideAnim();
     }
 
+    /// <summary>
+    /// Override OnResume.
+    /// </summary>
     public override void OnResume()
     {
         base.OnResume();
         EnterAnim();
     }
 
+    /// <summary>
+    /// Override OnExit.
+    /// </summary>
     public override void OnExit()
     {
         base.OnExit();
@@ -122,6 +134,9 @@ public class LogInPanel : BasePanel
         transform.DOLocalMove(Vector3.zero, 0.2f);
     }
 
+    /// <summary>
+    /// Hide the animation.
+    /// </summary>
     void HideAnim()
     {
         transform.DOScale(0, 0.2f);

@@ -28,35 +28,53 @@ public class RoomPanel : BasePanel
         transform.Find("StartButton").GetComponent<Button>().onClick.AddListener(OnStartClick);
         transform.Find("CloseButton").GetComponent<Button>().onClick.AddListener(OnExitClick);
 
-        bluePanel.transform.Find("BluePanel");
-        redPanel.transform.Find("RedPanel");
+        bluePanel = transform.Find("BluePanel").GetComponent<RectTransform>();
+        redPanel = transform.Find("RedPanel").GetComponent<RectTransform>();
         EnterAnim();
     }
 
+    /// <summary>
+    /// Override OnEnter.
+    /// </summary>
     public override void OnEnter()
     {
         base.OnEnter();
         if (bluePanel != null) EnterAnim();
     }
 
+    /// <summary>
+    /// Override OnEnter.
+    /// </summary>
     public override void OnExit()
     {
         base.OnExit();
         ExitAnim();
     }
 
+    /// <summary>
+    /// Override OnPause.
+    /// </summary>
     public override void OnPause()
     {
         base.OnPause();
         ExitAnim();
     }
 
+    /// <summary>
+    /// Override OnResume.
+    /// </summary>
     public override void OnResume()
     {
         base.OnResume();
         EnterAnim();
     }
 
+    /// <summary>
+    /// Set players of blue side.
+    /// </summary>
+    /// <param name="username"></param>
+    /// <param name="totalcount"></param>
+    /// <param name="wincount"></param>
     void SetLocalPlayerRes(string username, string totalcount, string wincount)
     {
         localPlayerUsername.text = username;
@@ -64,6 +82,12 @@ public class RoomPanel : BasePanel
         localPlayerWinCount.text = "Ê¤Àû£º" + wincount;
     }
 
+    /// <summary>
+    /// Set players of red side.
+    /// </summary>
+    /// <param name="username"></param>
+    /// <param name="totalcount"></param>
+    /// <param name="wincount"></param>
     void SetEnemyPlayerRes(string username, string totalcount, string wincount)
     {
         enemyPlayerUsername.text = username;
@@ -71,6 +95,9 @@ public class RoomPanel : BasePanel
         enemyWinCount.text = "Ê¤Àû£º" + wincount;
     }
 
+    /// <summary>
+    /// Clear the players' setting.
+    /// </summary>
     void ClearEnemyPlayerRes()
     {
         enemyPlayerUsername.text = "";
@@ -78,16 +105,25 @@ public class RoomPanel : BasePanel
         enemyWinCount.text = "";
     }
 
+    /// <summary>
+    /// Click the start button.
+    /// </summary>
     void OnStartClick()
     {
 
     }
 
+    /// <summary>
+    /// Click the close button.
+    /// </summary>
     void OnExitClick()
     {
 
     }
 
+    /// <summary>
+    /// Enter the animation.
+    /// </summary>
     void EnterAnim()
     {
         gameObject.SetActive(true);
@@ -98,6 +134,9 @@ public class RoomPanel : BasePanel
         redPanel.DOLocalMoveX(350, 0.4f);
     }
 
+    /// <summary>
+    /// Exit the animation.
+    /// </summary>
     void ExitAnim()
     {
         bluePanel.DOLocalMoveX(-1000, 0.4f);

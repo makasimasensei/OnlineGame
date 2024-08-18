@@ -26,7 +26,7 @@ public class RegisterPanel : BasePanel
     }
 
     /// <summary>
-    ///  Override display.
+    ///  Override OnEnter.
     /// </summary>
     public override void OnEnter()
     {
@@ -67,6 +67,10 @@ public class RegisterPanel : BasePanel
         }
     }
 
+    /// <summary>
+    /// Handle the register event.
+    /// </summary>
+    /// <param name="returnCode">Code of return.</param>
     public void OnRegisterResponse(ReturnCode returnCode)
     {
         if (returnCode == ReturnCode.Success)
