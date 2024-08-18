@@ -11,4 +11,5 @@ public enum UIPanelType
     LogIn,
     Reg,
     RoomList,
+    Room,
 }
