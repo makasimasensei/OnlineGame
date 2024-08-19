@@ -15,6 +15,10 @@ public class RoomPanel : BasePanel
     RectTransform bluePanel;
     RectTransform redPanel;
 
+    CreateRoomRequest createRoomRequest;
+
+    UserData userData = null;
+
     private void Start()
     {
         localPlayerUsername = transform.Find("BluePanel/Username").GetComponent<Text>();
@@ -30,7 +34,19 @@ public class RoomPanel : BasePanel
 
         bluePanel = transform.Find("BluePanel").GetComponent<RectTransform>();
         redPanel = transform.Find("RedPanel").GetComponent<RectTransform>();
+
+        createRoomRequest = GetComponent<CreateRoomRequest>();
         EnterAnim();
+    }
+
+    private void Update()
+    {
+        if (userData != null)
+        {
+            SetLocalPlayerRes(userData.UserName, userData.TotalCount.ToString(), userData.WinCount.ToString());
+            ClearEnemyPlayerRes();
+            userData = null;
+        }
     }
 
     /// <summary>
@@ -40,6 +56,8 @@ public class RoomPanel : BasePanel
     {
         base.OnEnter();
         if (bluePanel != null) EnterAnim();
+        if (createRoomRequest == null) createRoomRequest = GetComponent<CreateRoomRequest>();
+        createRoomRequest.SendRequest("r");
     }
 
     /// <summary>
@@ -69,13 +87,18 @@ public class RoomPanel : BasePanel
         EnterAnim();
     }
 
+    public void SetLocalPlayerResSync()
+    {
+        userData = gameFacade.GetUserData();
+    }
+
     /// <summary>
     /// Set players of blue side.
     /// </summary>
     /// <param name="username"></param>
     /// <param name="totalcount"></param>
     /// <param name="wincount"></param>
-    void SetLocalPlayerRes(string username, string totalcount, string wincount)
+    public void SetLocalPlayerRes(string username, string totalcount, string wincount)
     {
         localPlayerUsername.text = username;
         localPlayerTotalCount.text = "总场数：" + totalcount;
@@ -88,7 +111,7 @@ public class RoomPanel : BasePanel
     /// <param name="username"></param>
     /// <param name="totalcount"></param>
     /// <param name="wincount"></param>
-    void SetEnemyPlayerRes(string username, string totalcount, string wincount)
+    public void SetEnemyPlayerRes(string username, string totalcount, string wincount)
     {
         enemyPlayerUsername.text = username;
         enemyTotalCount.text = "总场数：" + totalcount;
@@ -98,10 +121,10 @@ public class RoomPanel : BasePanel
     /// <summary>
     /// Clear the players' setting.
     /// </summary>
-    void ClearEnemyPlayerRes()
+    public void ClearEnemyPlayerRes()
     {
         enemyPlayerUsername.text = "";
-        enemyTotalCount.text = "";
+        enemyTotalCount.text = "等待玩家加入...";
         enemyWinCount.text = "";
     }
 
