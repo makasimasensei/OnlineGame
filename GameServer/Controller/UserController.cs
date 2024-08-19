@@ -21,14 +21,15 @@ namespace GameServer.Controller
         public static string Login(string data, Client client, Server server)
         {
             string[] strs = data.Split(':');
-            User? user = UserDAO.VerifyUser(client.conn, strs[0], strs[1]);
+            User? user = UserDAO.VerifyUser(client.Conn, strs[0], strs[1]);
             if (user == null)
             {
                 return ((int)ReturnCode.Fail).ToString();
             }
             else
             {
-                Result result = ResultDAO.GetResultByUserId(client.conn, user.Id);
+                Result result = ResultDAO.GetResultByUserId(client.Conn, user.Id);
+                client.SetUserData(user, result);
                 return string.Format("{0}, {1}, {2},{3}", ((int)ReturnCode.Success).ToString(), user.Username, result.TotalCount, result.WinCount);
             }
         }
@@ -45,9 +46,9 @@ namespace GameServer.Controller
             string[] strs = data.Split(':');
             string username = strs[0];
             string password = strs[1];
-            bool res = UserDAO.GetUserByUsername(client.conn, username);
+            bool res = UserDAO.GetUserByUsername(client.Conn, username);
             if (res) return ((int)ReturnCode.Fail).ToString();
-            UserDAO.AddUser(client.conn, username, password);
+            UserDAO.AddUser(client.Conn, username, password);
             return ((int)ReturnCode.Success).ToString();
         }
     }

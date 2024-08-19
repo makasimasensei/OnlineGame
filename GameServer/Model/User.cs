@@ -1,6 +1,6 @@
 ﻿namespace GameServer.Model
 {
-    class User
+    public class User
     {
         public User(int id, string username, string password)
         {

@@ -1,6 +1,6 @@
 ﻿namespace GameServer.Model
 {
-    class Result
+    public class Result
     {
         public Result(int id, int userId, int totalCount, int winCount)
         {

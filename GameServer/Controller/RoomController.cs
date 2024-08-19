@@ -2,6 +2,7 @@
 using GameServer.DAO;
 using GameServer.Model;
 using GameServer.Servers;
+using System.Text;
 
 namespace GameServer.Controller
 {
@@ -36,10 +37,31 @@ namespace GameServer.Controller
             string[] strs = data.Split(':');
             string username = strs[0];
             string password = strs[1];
-            bool res = UserDAO.GetUserByUsername(client.conn, username);
+            bool res = UserDAO.GetUserByUsername(client.Conn, username);
             if (res) return ((int)ReturnCode.Fail).ToString();
-            UserDAO.AddUser(client.conn, username, password);
+            UserDAO.AddUser(client.Conn, username, password);
             return ((int)ReturnCode.Success).ToString();
+        }
+
+        public static string ListRoom(string data, Client client, Server server)
+        {
+            StringBuilder sb = new();
+            foreach (Room room in server.GetRoomList())
+            {
+                if (room.IsWaitingJoin())
+                {
+                    sb.Append(room.GetHouseOwnerData() + "|");
+                }
+            }
+            if (sb.Length == 0)
+            {
+                sb.Append("0");
+            }
+            else
+            {
+                sb.Remove(sb.Length - 1, 1);
+            }
+            return sb.ToString();
         }
     }
 }
