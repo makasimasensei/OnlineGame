@@ -82,5 +82,12 @@ namespace GameServer.Servers
         {
             client.Send(actionCode, data);
         }
+
+        public void CreateRoom(Client client)
+        {
+            Room room = new();
+            room.AddClient(client);
+            roomList.Add(room);
+        }
     }
 }
