@@ -16,6 +16,11 @@ public class BaseRequest : MonoBehaviour
     /// <summary>
     /// Send request to server.
     /// </summary>
+    public virtual void SendRequest() { }
+
+    /// <summary>
+    /// Send request to server.
+    /// </summary>
     /// <param name="data">Data.</param>
     public virtual void SendRequest(string data) 
     {

@@ -15,7 +15,7 @@ public class CreateRoomRequest : BaseRequest
         base.Awake();
     }
 
-    public override void SendRequest(string data)
+    public override void SendRequest()
     {
         base.SendRequest("r");
     }
