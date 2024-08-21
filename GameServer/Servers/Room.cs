@@ -8,7 +8,7 @@
         End,
     }
 
-    class Room
+    public class Room
     {
         List<Client> rooms = new();
         RoomState state = RoomState.WaitingJoin;

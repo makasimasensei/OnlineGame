@@ -96,6 +96,7 @@ namespace GameServer.Servers
 
         public List<Room> GetRoomList()
         {
+            return roomList;
         }
     }
 }
