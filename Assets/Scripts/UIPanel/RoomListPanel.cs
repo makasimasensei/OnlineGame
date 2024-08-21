@@ -1,4 +1,5 @@
 using DG.Tweening;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,6 +9,8 @@ public class RoomListPanel : BasePanel
     RectTransform roomList;
     VerticalLayoutGroup verticalLayoutGroup;
     GameObject roomItemPrefab;
+    RoomListRequest roomListRequest;
+    List<UserData> udList = null;
 
     void Start()
     {
@@ -17,8 +20,17 @@ public class RoomListPanel : BasePanel
         roomItemPrefab = Resources.Load("UIPanel/RoomItem") as GameObject;
         transform.Find("RoomList").Find("CloseButton").GetComponent<Button>().onClick.AddListener(OnCloseClick);
         transform.Find("RoomList").Find("CreateButton").GetComponent<Button>().onClick.AddListener(OnCreateRoomClick);
-
+        roomListRequest = GetComponent<RoomListRequest>();
         EnterAnim();
+    }
+
+    private void Update()
+    {
+        if (this.udList != null)
+        {
+            LoadRoomItem(udList);
+            udList = null;
+        }
     }
 
     /// <summary>
@@ -29,6 +41,8 @@ public class RoomListPanel : BasePanel
         base.OnEnter();
         SetBattleRes();
         if (battleRes != null) EnterAnim();
+        if(roomListRequest == null) roomListRequest = GetComponent<RoomListRequest>();
+        roomListRequest.SendRequest();
     }
 
     /// <summary>
@@ -47,6 +61,7 @@ public class RoomListPanel : BasePanel
     {
         base.OnResume();
         EnterAnim();
+        roomListRequest.SendRequest();
     }
 
     /// <summary>
@@ -100,17 +115,31 @@ public class RoomListPanel : BasePanel
         transform.Find("BattleRes/WinCount").GetComponent<Text>().text = "Ê¤Àû£º" + userData.WinCount.ToString();
     }
 
+    public void LoadRoomItemSync(List<UserData> udList)
+    {
+        this.udList = udList;
+    }
+
     /// <summary>
     /// Load the items of the room.
     /// </summary>
     /// <param name="count"></param>
-    void LoadRoomItem(int count)
+    void LoadRoomItem(List<UserData> udList)
     {
+        RoomItem[] riArray = verticalLayoutGroup.GetComponentsInChildren<RoomItem>();
+        foreach (RoomItem ri in riArray)
+        {
+            ri.DestroySelf();
+        }
+
+        int count = udList.Count;
         for (int i = 0; i < count; i++)
         {
             GameObject roomItem = GameObject.Instantiate(roomItemPrefab);
             roomItem.transform.SetParent(verticalLayoutGroup.transform);
             roomItem.transform.localScale = Vector3.one;
+            UserData userData = udList[i];
+            roomItem.GetComponent<RoomItem>().SetRoomInfo(userData.UserName, userData.TotalCount, userData.WinCount);
         }
     }
 
@@ -121,12 +150,4 @@ public class RoomListPanel : BasePanel
     {
         uiManager.PushPanel(UIPanelType.Room);
     }
-
-    //private void Update()
-    //{
-    //    if (Input.GetMouseButtonDown(0))
-    //    {
-    //        LoadRoomItem(1);
-    //    }
-    //}
 }

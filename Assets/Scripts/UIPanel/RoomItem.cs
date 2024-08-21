@@ -33,4 +33,9 @@ public class RoomItem : MonoBehaviour
     {
 
     }
+
+    public void DestroySelf()
+    {
+        GameObject.Destroy(this.gameObject);
+    }
 }
