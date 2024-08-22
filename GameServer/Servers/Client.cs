@@ -83,11 +83,11 @@ namespace GameServer.Servers
             if (client != null)
             {
                 client.Close();
-                server.RemoveClient(this);
                 if (this.room != null)
                 {
                     room.Close(this);
                 }
+                server.RemoveClient(this);
             }
         }
 
