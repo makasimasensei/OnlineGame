@@ -15,9 +15,9 @@ public class RoomPanel : BasePanel
     RectTransform bluePanel;
     RectTransform redPanel;
 
-    CreateRoomRequest createRoomRequest;
-
     UserData userData = null;
+    UserData userData1 = null;
+    UserData userData2 = null;
 
     private void Start()
     {
@@ -35,7 +35,6 @@ public class RoomPanel : BasePanel
         bluePanel = transform.Find("BluePanel").GetComponent<RectTransform>();
         redPanel = transform.Find("RedPanel").GetComponent<RectTransform>();
 
-        createRoomRequest = GetComponent<CreateRoomRequest>();
         EnterAnim();
     }
 
@@ -47,6 +46,11 @@ public class RoomPanel : BasePanel
             ClearEnemyPlayerRes();
             userData = null;
         }
+        if (userData1 != null || userData2 != null)
+        {
+            SetLocalPlayerRes(userData1.UserName, userData1.TotalCount.ToString(), userData1.WinCount.ToString());
+            SetEnemyPlayerRes(userData1.UserName, userData1.TotalCount.ToString(), userData1.WinCount.ToString());
+        }
     }
 
     /// <summary>
@@ -56,8 +60,6 @@ public class RoomPanel : BasePanel
     {
         base.OnEnter();
         if (bluePanel != null) EnterAnim();
-        if (createRoomRequest == null) createRoomRequest = GetComponent<CreateRoomRequest>();
-        createRoomRequest.SendRequest("r");
     }
 
     /// <summary>
@@ -90,6 +92,12 @@ public class RoomPanel : BasePanel
     public void SetLocalPlayerResSync()
     {
         userData = gameFacade.GetUserData();
+    }
+
+    public void SetPlayerResSync(UserData ud1, UserData ud2)
+    {
+        this.userData1 = ud1;
+        this.userData2 = ud2;
     }
 
     /// <summary>

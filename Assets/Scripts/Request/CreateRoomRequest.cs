@@ -15,6 +15,11 @@ public class CreateRoomRequest : BaseRequest
         base.Awake();
     }
 
+    public void SetPanel(BasePanel basePanel)
+    {
+        roomPanel = basePanel as RoomPanel;
+    }
+
     public override void SendRequest()
     {
         base.SendRequest("r");

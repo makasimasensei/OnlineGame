@@ -1,3 +1,4 @@
+using Common;
 using DG.Tweening;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,6 +11,8 @@ public class RoomListPanel : BasePanel
     VerticalLayoutGroup verticalLayoutGroup;
     GameObject roomItemPrefab;
     RoomListRequest roomListRequest;
+    CreateRoomRequest createRoomRequest;
+    JoinRoomRequest joinRoomRequest;
     List<UserData> udList = null;
 
     void Start()
@@ -20,7 +23,10 @@ public class RoomListPanel : BasePanel
         roomItemPrefab = Resources.Load("UIPanel/RoomItem") as GameObject;
         transform.Find("RoomList").Find("CloseButton").GetComponent<Button>().onClick.AddListener(OnCloseClick);
         transform.Find("RoomList").Find("CreateButton").GetComponent<Button>().onClick.AddListener(OnCreateRoomClick);
+        transform.Find("RoomList").Find("RefreshButton").GetComponent<Button>().onClick.AddListener(OnRefreshClick);
         roomListRequest = GetComponent<RoomListRequest>();
+        createRoomRequest = GetComponent<CreateRoomRequest>();
+        joinRoomRequest = GetComponent<JoinRoomRequest>();
         EnterAnim();
     }
 
@@ -41,7 +47,7 @@ public class RoomListPanel : BasePanel
         base.OnEnter();
         SetBattleRes();
         if (battleRes != null) EnterAnim();
-        if(roomListRequest == null) roomListRequest = GetComponent<RoomListRequest>();
+        if (roomListRequest == null) roomListRequest = GetComponent<RoomListRequest>();
         roomListRequest.SendRequest();
     }
 
@@ -139,7 +145,29 @@ public class RoomListPanel : BasePanel
             roomItem.transform.SetParent(verticalLayoutGroup.transform);
             roomItem.transform.localScale = Vector3.one;
             UserData userData = udList[i];
-            roomItem.GetComponent<RoomItem>().SetRoomInfo(userData.UserName, userData.TotalCount, userData.WinCount);
+            roomItem.GetComponent<RoomItem>().SetRoomInfo(userData.Id, userData.UserName, userData.TotalCount, userData.WinCount, this);
+        }
+    }
+
+    public void OnJoinClick(int id)
+    {
+        joinRoomRequest.SendRequest(id);
+    }
+
+    public void OnJoinResponse(ReturnCode returnCode, UserData ud1, UserData ud2)
+    {
+        switch (returnCode)
+        {
+            case ReturnCode.NotFound:
+                uiManager.ShowMessageSync("Room not found");
+                break;
+            case ReturnCode.Success:
+                uiManager.ShowMessageSync("Room can not join.");
+                break;
+            case ReturnCode.Fail:
+                BasePanel panel= uiManager.PushPanel(UIPanelType.Room);
+                (panel as RoomPanel).SetPlayerResSync(ud1, ud2);
+                break;
         }
     }
 
@@ -148,6 +176,13 @@ public class RoomListPanel : BasePanel
     /// </summary>
     void OnCreateRoomClick()
     {
-        uiManager.PushPanel(UIPanelType.Room);
+        BasePanel panel = uiManager.PushPanel(UIPanelType.Room);
+        createRoomRequest.SetPanel(panel);
+        createRoomRequest.SendRequest();
+    }
+
+    void OnRefreshClick()
+    {
+        roomListRequest.SendRequest();
     }
 }

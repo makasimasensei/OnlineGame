@@ -26,7 +26,7 @@ public class RoomListRequest : BaseRequest
         foreach (string ud in udArray)
         {
             string[] strs = ud.Split(',');
-            udList.Add(new UserData(strs[0], int.Parse(strs[1]), int.Parse(strs[2])));
+            udList.Add(new UserData(int.Parse(strs[0]), strs[1], int.Parse(strs[2]), int.Parse(strs[3])));
         }
         roomListPanel.LoadRoomItemSync(udList);
     }
