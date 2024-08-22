@@ -13,11 +13,14 @@ namespace GameServer.Servers
         public Server server;
         Message receiveMsg = new();
         readonly MySqlConnection conn;
+        Room room;
 
         User user;
         Result result;
 
         public MySqlConnection Conn => conn;
+
+        public Room Room { set => room = value; }
 
         /// <summary>
         /// Set the data.
@@ -35,7 +38,12 @@ namespace GameServer.Servers
         /// </summary>
         public string GetUserData()
         {
-            return user.Username + "," + result.TotalCount + "," + result.WinCount;
+            return user.Id + "," + user.Username + "," + result.TotalCount + "," + result.WinCount;
+        }
+
+        public int GetUserId()
+        {
+            return user.Id;
         }
 
         public Client(Socket c, Server s)
@@ -76,6 +84,10 @@ namespace GameServer.Servers
             {
                 client.Close();
                 server.RemoveClient(this);
+                if (this.room != null)
+                {
+                    room.Close(this);
+                }
             }
         }
 
