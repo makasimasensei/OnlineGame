@@ -70,15 +70,17 @@ namespace GameServer.Controller
             Room? room = server.GetRoomById(id);
             if (room == null)
             {
-
+                return ((int)(ReturnCode.NotFound)).ToString();
             }
             else if (room.IsWaitingJoin() == false)
             {
-
+                return ((int)(ReturnCode.Fail)).ToString();
             }
             else
             {
-
+                room.AddClient(client);
+                string roomData = room.GetRoomData();
+                return ((int)(ReturnCode.Success)).ToString() + "-" + roomData;
             }
         }
     }

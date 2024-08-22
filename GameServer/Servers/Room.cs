@@ -1,4 +1,6 @@
-﻿namespace GameServer.Servers
+﻿using System.Text;
+
+namespace GameServer.Servers
 {
     enum RoomState
     {
@@ -31,6 +33,10 @@
         {
             rooms.Add(client);
             client.Room = this;
+            if (rooms.Count >= 2)
+            {
+                state = RoomState.WaitingBattle;
+            }
         }
 
         /// <summary>
@@ -57,6 +63,20 @@
                 return rooms[0].GetUserId();
             }
             return -1;
+        }
+
+        public String GetRoomData()
+        {
+            StringBuilder sb = new StringBuilder();
+            foreach (Client client in rooms)
+            {
+                sb.Append(client.GetUserData()+"|");
+            }
+            if (sb.Length > 0)
+            {
+                sb.Remove(sb.Length-1, 1);
+            }
+            return sb.ToString();
         }
     }
 }
