@@ -51,6 +51,8 @@ public class RoomPanel : BasePanel
             SetLocalPlayerRes(userData1.UserName, userData1.TotalCount.ToString(), userData1.WinCount.ToString());
             SetEnemyPlayerRes(userData1.UserName, userData1.TotalCount.ToString(), userData1.WinCount.ToString());
         }
+        userData1 = null;
+        userData2 = null;
     }
 
     /// <summary>
@@ -94,7 +96,7 @@ public class RoomPanel : BasePanel
         userData = gameFacade.GetUserData();
     }
 
-    public void SetPlayerResSync(UserData ud1, UserData ud2)
+    public void SetAllPlayerResSync(UserData ud1, UserData ud2)
     {
         this.userData1 = ud1;
         this.userData2 = ud2;

@@ -15,6 +15,9 @@ public class RoomListPanel : BasePanel
     JoinRoomRequest joinRoomRequest;
     List<UserData> udList = null;
 
+    UserData userData1 = null;
+    UserData userData2 = null;
+
     void Start()
     {
         battleRes = transform.Find("BattleRes").GetComponent<RectTransform>();
@@ -36,6 +39,11 @@ public class RoomListPanel : BasePanel
         {
             LoadRoomItem(udList);
             udList = null;
+        }
+        if (userData1 != null&& userData2!=null)
+        {
+            userData1 = null;
+            userData2 = null;
         }
     }
 
@@ -161,12 +169,12 @@ public class RoomListPanel : BasePanel
             case ReturnCode.NotFound:
                 uiManager.ShowMessageSync("Room not found");
                 break;
-            case ReturnCode.Success:
+            case ReturnCode.Fail:
                 uiManager.ShowMessageSync("Room can not join.");
                 break;
-            case ReturnCode.Fail:
-                BasePanel panel= uiManager.PushPanel(UIPanelType.Room);
-                (panel as RoomPanel).SetPlayerResSync(ud1, ud2);
+            case ReturnCode.Success:
+                this.userData1 = ud1;
+                this.userData2 = ud2;
                 break;
         }
     }
